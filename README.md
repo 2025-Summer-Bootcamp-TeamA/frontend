@@ -1,4 +1,4 @@
-# my-app (Expo React Native 프로젝트)
+# frontend (Expo React Native 프로젝트)
 
 ## 프로젝트 소개
 이 프로젝트는 Expo 기반의 React Native 앱입니다. 위치 권한, 카메라 접근 등 다양한 디바이스 기능을 활용할 수 있도록 초기 세팅되어 있습니다.
@@ -7,7 +7,7 @@
 
 ## 폴더 구조
 ```
-my-app/
+frontend/
   App.js                # 앱의 진입점
   index.js              # 엔트리포인트
   app.json              # Expo 설정 파일
@@ -18,6 +18,7 @@ my-app/
     screens/            # 각 화면(페이지) 컴포넌트
     store/              # 상태관리 관련 코드
   node_modules/         # 설치된 라이브러리
+  .expo/                # Expo 관련 설정 및 캐시
   .gitignore            # Git 관리 제외 파일 목록
   README.md             # 프로젝트 설명 파일(본 파일)
 ```
