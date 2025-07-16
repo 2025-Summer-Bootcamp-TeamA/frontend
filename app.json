@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/image1.jpg",
+      "image": "./assets/Splash 화면.jpg",
       "resizeMode": "cover",
       "backgroundColor": "#000000"
     },
