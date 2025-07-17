@@ -30,7 +30,7 @@ export default function MainTabs() {
       })}
     >
       <Tab.Screen name="Library" component={LibraryScreen} />
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeScreen}  options={{ headerShown: true }} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

@@ -12,16 +12,16 @@ export default function ProfileTitle() {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 8,
+    marginBottom: 16,
     fontFamily: 'NotoSerif',
     letterSpacing: 1,
   },
   divider: {
     width: '100%',
-    height: 3,
+    height: 2,
     backgroundColor: '#fff',
     opacity: 0.8,
     marginBottom: 24,
