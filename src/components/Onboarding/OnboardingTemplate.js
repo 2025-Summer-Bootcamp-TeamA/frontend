@@ -8,7 +8,7 @@ const OnboardingTemplate = ({ navigation, imageSource, description, subText, ski
   <View style={styles.container}>
     {skipButton
       ? skipButton
-      : <SkipButton onPress={() => navigation && navigation.replace ? navigation.replace('MainTabs') : null} />
+      :  <SkipButton onPress={() => navigation?.replace?.('MainTabs')} />
       // 나중에 PhotoUpLoad.js로 이동하는 것으로 변경
     }
     <OnboardingImage source={imageSource} />
