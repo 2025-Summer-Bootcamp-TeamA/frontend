@@ -44,7 +44,7 @@ const museums = [
   },
 ];
 
-const HomeScreen = () => (
+const HomeScreen = ({ navigation }) => (
   <ImageBackground
     source={MainFeatureBg}
     style={{ flex: 1 }}
@@ -59,6 +59,7 @@ const HomeScreen = () => (
         imageSource={MainFeatureBg}
         title="박물관 그 이 이상의 경험"
         subtitle="한 장의 사진이 특별한 이야기가 됩니다"
+        navigation={navigation}
       />
       <Text style={styles.sectionTitle}>근처 박물관</Text>
       <FlatList
