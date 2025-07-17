@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const MainFeatureCard = ({ imageSource, title, subtitle}) => (
+const MainFeatureCard = ({ imageSource, title, subtitle, navigation }) => (
   <View style={styles.card}>
     <Image source={imageSource} style={styles.image} resizeMode="cover" />
     <LinearGradient
@@ -17,7 +17,11 @@ const MainFeatureCard = ({ imageSource, title, subtitle}) => (
       <Text style={styles.subtitle}>{subtitle}</Text>
     </View>
     {/* 시작하기 버튼 */}
-    <TouchableOpacity style={styles.glassButton} activeOpacity={0.85}>
+    <TouchableOpacity
+      style={styles.glassButton}
+      activeOpacity={0.85}
+      onPress={() => navigation.navigate('Onboarding')}
+    >
       <Text style={styles.buttonText}>시작하기</Text>
     </TouchableOpacity>
   </View>

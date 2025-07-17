@@ -1,23 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import OnboardingTemplate from '../../components/Onboarding/OnboardingTemplate';
+import XButton from '../../components/Onboarding/XButton';
 
-const Onboarding3 = () => (
-  <View style={styles.container}>
-    <Text style={styles.text}>온보딩 3 화면</Text>
-  </View>
+const onboardingImg3 = require('../../../assets/Onboarding/Onboarding3.png');
+
+const Onboarding3 = ({ navigation }) => (
+  <OnboardingTemplate
+    navigation={navigation}
+    imageSource={onboardingImg3}
+    description={
+      <>작품명 판을 촬영해 주세요.</>
+    }
+    subText={
+      <>
+        작품 설명이 제공되지 않는 경우,{`\n`}
+        제목과 작가명이 보이도록 촬영해 주세요.
+      </>
+    }
+    skipButton={
+      <XButton onPress={() => navigation && navigation.replace ? navigation.replace('MainTabs') : null} />
+    }
+  />
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-});
 
 export default Onboarding3; 

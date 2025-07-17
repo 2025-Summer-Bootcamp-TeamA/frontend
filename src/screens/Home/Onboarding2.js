@@ -1,23 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import OnboardingTemplate from '../../components/Onboarding/OnboardingTemplate';
 
-const Onboarding2 = () => (
-  <View style={styles.container}>
-    <Text style={styles.text}>온보딩 2 화면</Text>
-  </View>
+const onboardingImg2 = require('../../../assets/Onboarding/Onboarding2.png');
+
+const Onboarding2 = ({ navigation }) => (
+  <OnboardingTemplate
+    navigation={navigation}
+    imageSource={onboardingImg2}
+    description={
+      <>작품 설명을 촬영해 주세요.</>
+    }
+    subText={
+      <>
+        촬영된 작품 설명은 AI 해설 영상의{`\n`}
+        스크립트로 활용됩니다.
+      </>
+    }
+  />
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-});
 
 export default Onboarding2; 

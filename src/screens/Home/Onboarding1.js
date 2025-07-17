@@ -1,23 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import OnboardingTemplate from '../../components/Onboarding/OnboardingTemplate';
 
-const Onboarding1 = () => (
-  <View style={styles.container}>
-    <Text style={styles.text}>온보딩 1 화면</Text>
-  </View>
+const onboardingImg1 = require('../../../assets/Onboarding/Onboarding1.png');
+
+const Onboarding1 = ({ navigation }) => (
+  <OnboardingTemplate
+    navigation={navigation}
+    imageSource={onboardingImg1}
+    description={
+      <>
+        작품을 화면 가운데에 오도록{`\n`}
+        촬영해 주세요.
+      </>
+    }
+    subText={
+      <>
+        촬영한 작품 사진은 영상 제작에 사용되며,{`\n`}
+        얼굴이 감지되지 않을 경우 자동으로{`\n`}
+        아바타 이미지가 생성되어 사용됩니다.
+      </>
+    }
+  />
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-});
 
 export default Onboarding1; 
