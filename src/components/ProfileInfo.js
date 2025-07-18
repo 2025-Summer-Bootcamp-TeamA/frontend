@@ -5,7 +5,7 @@ export default function ProfileInfo({ username }) {
   return (
     <View style={styles.profileRow}>
       <Image
-        source={require('../../assets/backgrounds/frame.png')}
+        source={require('../../assets/backgrounds/Profile_frame.jpg')}
         style={styles.profileFrame}
       />
       <Text style={styles.username}>{username}</Text>

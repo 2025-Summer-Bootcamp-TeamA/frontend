@@ -5,7 +5,7 @@ import PlayerControls from '../../components/PlayerControls';
 import ArtworkInfoPanel from '../../components/ArtworkInfoPanel';
 
 const backgroundImage = require('../../../assets/backgrounds/video_playback_background.png');
-const frameImage = require('../../../assets/backgrounds/frame.png');
+const frameImage = require('../../../assets/backgrounds/Video_frame.png');
 
 const VideoDetailScreen = () => {
   return (
