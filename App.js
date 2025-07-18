@@ -6,10 +6,20 @@ import Onboarding from './src/screens/Home/Onboarding';
 import PhotoUpload from './src/screens/Home/PhotoUpload';
 import LoadingScreen from './src/screens/Home/LoadingScreen';
 import VideoDetailScreen from './src/screens/Library/VideoDetailScreen';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'NotoSerif': require('./assets/fonts/NotoSerif-Regular.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
