@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   borderContainer: {
     borderRadius: 20,
-    borderWidth: 1, // 더 두껍게 하고 싶으면 값 증가
+    borderWidth: 0.6, // 더 두껍게 하고 싶으면 값 증가
     borderColor: '#fff', // 완전한 흰색!
     overflow: 'hidden', // BlurView와 내용이 border 밖으로 안 나가게
   },
