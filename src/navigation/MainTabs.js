@@ -11,7 +11,6 @@ export default function MainTabs() {
   return (
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen name="Library" component={LibraryScreen} />
-      <Tab.Screen name="Museums" component={MuseumListScreen} options={{ title: '박물관' }} />
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
