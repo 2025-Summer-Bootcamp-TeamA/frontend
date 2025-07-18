@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, ImageBackground, StyleSheet } from 'react-native';
-import ProfileTitle from '../../components/ProfileTitle';
-import ProfileInfo from '../../components/ProfileInfo';
-import ProfileStats from '../../components/ProfileStats';
-import ProfileActions from '../../components/ProfileActions';
+import ProfileTitle from '../../components/Profile/ProfileTitle';
+import ProfileInfo from '../../components/Profile/ProfileInfo';
+import ProfileStats from '../../components/Profile/ProfileStats';
+import ProfileActions from '../../components/Profile/ProfileActions';
 
 export default function ProfileScreen() {
   return (
@@ -13,7 +13,6 @@ export default function ProfileScreen() {
       resizeMode="cover"
     >
       <View style={styles.container}>
-        <ProfileTitle />
         <ProfileInfo username="User님" />
         <ProfileStats />
         <ProfileActions />

@@ -15,7 +15,7 @@ export default function MainTabs() {
         tabBarStyle: { backgroundColor: '#222' },
         tabBarActiveTintColor: '#fff',
         tabBarInactiveTintColor: '#aaa',
-        headerShown: false,
+        headerShown: true,
         tabBarIcon: ({ color, size }) => {
           if (route.name === 'Library') {
             return <MaterialIcons name="video-library" size={size} color={color} />;
@@ -29,8 +29,8 @@ export default function MainTabs() {
         },
       })}
     >
-      <Tab.Screen name="Library" component={LibraryScreen} />
-      <Tab.Screen name="Home" component={HomeScreen}  options={{ headerShown: true }} />
+      <Tab.Screen name="Library" component={LibraryScreen}   />
+      <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
