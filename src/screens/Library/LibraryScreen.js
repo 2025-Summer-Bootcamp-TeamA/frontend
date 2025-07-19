@@ -54,7 +54,7 @@ const LibraryScreen = () => {
   // 화면 진입 시 페이드 인 애니메이션
   useEffect(() => {
     screenOpacity.value = withTiming(1, {
-      duration: 300,
+      duration: 400,
     });
   }, []);
 
@@ -107,7 +107,6 @@ const LibraryScreen = () => {
             ) : (
               <Animated.View 
                 style={contentAnimatedStyle}
-                entering={FadeIn.duration(400)}
               >
                 {data?.map((museum, idx) => (
                   <MuseumSection
