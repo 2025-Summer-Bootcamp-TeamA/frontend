@@ -18,7 +18,7 @@ const Onboarding3 = ({ navigation }) => (
       </>
     }
     skipButton={
-      <XButton onPress={() => navigation && navigation.replace ? navigation.replace('MainTabs') : null} />
+      <XButton onPress={() => navigation && navigation.replace ? navigation.replace('PhotoUpload') : null} />
     }
   />
 );
