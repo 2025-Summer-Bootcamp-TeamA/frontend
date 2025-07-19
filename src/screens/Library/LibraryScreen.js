@@ -17,25 +17,25 @@ const dummyData = [
   {
     title: '국립중앙박물관',
     artworks: [
-      { id: '1', image: require('../../../assets/Demo/Demobg1.webp'), title: '모나리자', artist: '반고흐' },
-      { id: '2', image: require('../../../assets/Demo/Demobg2.webp'), title: '모나리자', artist: '반고흐' },
-      { id: '3', image: require('../../../assets/Demo/Demobg3.webp'), title: '모나리자', artist: '반고흐' },
+      { id: '1', image: require('../../../assets/Demo/Demobg1.webp'), title: '훈민정음', artist: '세종대왕' },
+      { id: '2', image: require('../../../assets/Demo/Demobg2.webp'), title: '금관', artist: '신라 장인' },
+      { id: '3', image: require('../../../assets/Demo/Demobg3.webp'), title: '백제 금동대향로', artist: '백제 장인' },
     ],
   },
   {
     title: '서울역사박물관',
     artworks: [
-      { id: '4', image: require('../../../assets/Demo/Demobg1.webp'), title: '모나리자', artist: '반고흐' },
-      { id: '5', image: require('../../../assets/Demo/Demobg2.webp'), title: '모나리자', artist: '반고흐' },
-      { id: '6', image: require('../../../assets/Demo/Demobg3.webp'), title: '모나리자', artist: '반고흐' },
+      { id: '4', image: require('../../../assets/Demo/Demobg1.webp'), title: '한양도성', artist: '조선 건축가' },
+      { id: '5', image: require('../../../assets/Demo/Demobg2.webp'), title: '경복궁', artist: '정도전' },
+      { id: '6', image: require('../../../assets/Demo/Demobg3.webp'), title: '창덕궁', artist: '조선 왕실' },
     ],
   },
   {
     title: '국립화폐박물관',
     artworks: [
-      { id: '7', image: require('../../../assets/Demo/Demobg1.webp'), title: '모나리자', artist: '반고흐' },
-      { id: '8', image: require('../../../assets/Demo/Demobg2.webp'), title: '모나리자', artist: '반고흐' },
-      { id: '9', image: require('../../../assets/Demo/Demobg3.webp'), title: '모나리자', artist: '반고흐' },
+      { id: '7', image: require('../../../assets/Demo/Demobg1.webp'), title: '상평통보', artist: '조선 조폐국' },
+      { id: '8', image: require('../../../assets/Demo/Demobg2.webp'), title: '천원권 지폐', artist: '한국은행' },
+      { id: '9', image: require('../../../assets/Demo/Demobg3.webp'), title: '오천원권 지폐', artist: '한국은행' },
     ],
   },
 ];
