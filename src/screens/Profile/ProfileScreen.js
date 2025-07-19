@@ -1,19 +1,17 @@
 import React from 'react';
 import { View, ImageBackground, StyleSheet } from 'react-native';
-import ProfileTitle from '../../components/ProfileTitle';
-import ProfileInfo from '../../components/ProfileInfo';
-import ProfileStats from '../../components/ProfileStats';
-import ProfileActions from '../../components/ProfileActions';
+import ProfileInfo from '../../components/Profile/ProfileInfo';
+import ProfileStats from '../../components/Profile/ProfileStats';
+import ProfileActions from '../../components/Profile/ProfileActions';
 
 export default function ProfileScreen() {
   return (
     <ImageBackground
-      source={require('../../../assets/backgrounds/바탕화면.jpg')}
+      source={require('../../../assets/backgrounds/바탕화면.webp')}
       style={styles.background}
       resizeMode="cover"
     >
       <View style={styles.container}>
-        <ProfileTitle />
         <ProfileInfo username="User님" />
         <ProfileStats />
         <ProfileActions />

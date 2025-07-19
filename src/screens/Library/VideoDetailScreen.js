@@ -4,8 +4,8 @@ import { Video } from 'expo-av';
 import PlayerControls from '../../components/PlayerControls';
 import ArtworkInfoPanel from '../../components/ArtworkInfoPanel';
 
-const backgroundImage = require('../../../assets/backgrounds/video_playback_background.png');
-const frameImage = require('../../../assets/backgrounds/Video_frame.png');
+const backgroundImage = require('../../../assets/backgrounds/video_playback_background.webp');
+const frameImage = require('../../../assets/backgrounds/Video_frame.webp');
 
 const VideoDetailScreen = () => {
   return (
@@ -29,7 +29,7 @@ const VideoDetailScreen = () => {
             isLooping
             shouldPlay={false}
             usePoster={true}
-            posterSource={require('../../../assets/icons/Demo1.png')}
+            posterSource={require('../../../assets/icons/Demo1.webp')}
             posterStyle={{ width: '100%', height: '100%', resizeMode: 'cover' }}
           />
         </View>
