@@ -18,7 +18,7 @@ const PhotoUpload = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require('../../../assets/backgrounds/바탕화면.jpg')}
+      source={require('../../../assets/backgrounds/바탕화면.webp')}
       style={styles.background}
     >
       <View style={styles.container}>
