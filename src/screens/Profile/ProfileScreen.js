@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, ImageBackground, StyleSheet } from 'react-native';
-import ProfileTitle from '../../components/Profile/ProfileTitle';
 import ProfileInfo from '../../components/Profile/ProfileInfo';
 import ProfileStats from '../../components/Profile/ProfileStats';
 import ProfileActions from '../../components/Profile/ProfileActions';
@@ -8,7 +7,7 @@ import ProfileActions from '../../components/Profile/ProfileActions';
 export default function ProfileScreen() {
   return (
     <ImageBackground
-      source={require('../../../assets/backgrounds/바탕화면.jpg')}
+      source={require('../../../assets/backgrounds/바탕화면.webp')}
       style={styles.background}
       resizeMode="cover"
     >
