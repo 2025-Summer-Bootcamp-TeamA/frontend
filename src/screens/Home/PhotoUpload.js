@@ -4,9 +4,10 @@ import Header from '../../components/photo_upload/Header';
 import UploadCard from '../../components/photo_upload/UploadCard';
 import PrimaryButton from '../../components/photo_upload/PrimaryButton';
 
-const PhotoUpload = () => {
+const PhotoUpload = ({ navigation }) => {
   const handleBack = () => {
-    // 뒤로가기 동작 구현 (예: navigation.goBack())
+    // MainTabs 화면으로 이동
+    navigation.navigate('MainTabs');
   };
   const handleCapture = () => {
     // 촬영하기 버튼 동작 구현

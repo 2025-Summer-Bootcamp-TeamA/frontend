@@ -1,7 +1,7 @@
 import React from 'react';
 import OnboardingTemplate from '../../components/Onboarding/OnboardingTemplate';
 
-const onboardingImg2 = require('../../../assets/Onboarding/Onboarding2.png');
+const onboardingImg2 = require('../../../assets/Onboarding/Onboarding2.webp');
 
 const Onboarding2 = ({ navigation }) => (
   <OnboardingTemplate
