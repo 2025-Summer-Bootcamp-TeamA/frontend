@@ -13,6 +13,11 @@ import ProfileActions from '../../components/Profile/ProfileActions';
 
 export default function ProfileScreen() {
   const [isLoading, setIsLoading] = useState(true);
+  const [userStats, setUserStats] = useState({
+    visitedMuseums: 0,
+    createdVideos: 0,
+    savedItems: 0,
+  });
   
   // Reanimated 값들
   const screenOpacity = useSharedValue(0);
@@ -30,6 +35,13 @@ export default function ProfileScreen() {
     const loadData = async () => {
       // 로딩 효과를 위한 지연 (실제 API 호출 시에는 제거)
       setTimeout(() => {
+        // 더미 데이터 (나중에 API 호출로 대체)
+        setUserStats({
+          visitedMuseums: 5,
+          createdVideos: 15,
+          savedItems: 8,
+        });
+        
         setIsLoading(false);
         
         // 로딩 완료 시 콘텐츠 페이드 인
@@ -74,7 +86,11 @@ export default function ProfileScreen() {
               exiting={FadeOut.duration(200)}
             >
               <ProfileInfo username="User님" />
-              <ProfileStats />
+              <ProfileStats 
+                visitedMuseums={userStats.visitedMuseums}
+                createdVideos={userStats.createdVideos}
+                savedItems={userStats.savedItems}
+              />
               <ProfileActions />
             </Animated.View>
           )}

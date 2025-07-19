@@ -2,12 +2,12 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import ProfileStatItem from './ProfileStatItem';
 
-export default function ProfileStats() {
+export default function ProfileStats({ visitedMuseums, createdVideos, savedItems }) {
   return (
     <View style={styles.statsRow}>
-      <ProfileStatItem number={3} label="방문한 박물관" />
-      <ProfileStatItem number={21} label="생성한 영상" />
-      <ProfileStatItem number={11} label="보관함" />
+      <ProfileStatItem number={visitedMuseums} label="방문한 박물관" />
+      <ProfileStatItem number={createdVideos} label="생성한 영상" />
+      <ProfileStatItem number={savedItems} label="보관함" />
     </View>
   );
 }
