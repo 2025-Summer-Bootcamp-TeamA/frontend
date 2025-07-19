@@ -2,7 +2,7 @@ import React from 'react';
 import OnboardingTemplate from '../../components/Onboarding/OnboardingTemplate';
 import XButton from '../../components/Onboarding/XButton';
 
-const onboardingImg3 = require('../../../assets/Onboarding/Onboarding3.png');
+const onboardingImg3 = require('../../../assets/Onboarding/Onboarding3.webp');
 
 const Onboarding3 = ({ navigation }) => (
   <OnboardingTemplate
@@ -18,7 +18,7 @@ const Onboarding3 = ({ navigation }) => (
       </>
     }
     skipButton={
-      <XButton onPress={() => navigation && navigation.replace ? navigation.replace('MainTabs') : null} />
+      <XButton onPress={() => navigation && navigation.replace ? navigation.replace('PhotoUpload') : null} />
     }
   />
 );

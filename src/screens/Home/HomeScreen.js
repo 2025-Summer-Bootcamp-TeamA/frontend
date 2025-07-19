@@ -2,11 +2,11 @@ import React from 'react';
 import { View, StyleSheet, FlatList, Text, ScrollView, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 // MainFeature 배경 이미지 import
-import MainFeatureBg from '../../../assets/backgrounds/MainFeature 배경.png';
+import MainFeatureBg from '../../../assets/backgrounds/MainFeature 배경.webp';
 
-import Demo1 from '../../../assets/Demo/Demobg1.png';
-import Demo2 from '../../../assets/Demo/Demobg2.png';
-import Demo3 from '../../../assets/Demo/Demobg3.png';
+import Demo1 from '../../../assets/Demo/Demobg1.webp';
+import Demo2 from '../../../assets/Demo/Demobg2.webp';
+import Demo3 from '../../../assets/Demo/Demobg3.webp';
 
 import MuseumCard from '../../components/Home/MuseumCard';
 import MainFeatureCard from '../../components/Home/MainFeatureCard';
