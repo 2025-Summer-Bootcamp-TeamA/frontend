@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, ImageBackground, Image } from 'react-native';
-import { Video } from 'expo-av';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import PlayerControls from '../../components/PlayerControls';
 import ArtworkInfoPanel from '../../components/ArtworkInfoPanel';
 
@@ -8,6 +8,18 @@ const backgroundImage = require('../../../assets/backgrounds/video_playback_back
 const frameImage = require('../../../assets/backgrounds/Video_frame.webp');
 
 const VideoDetailScreen = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  
+  const player = useVideoPlayer('https://www.w3schools.com/html/mov_bbb.mp4', player => {
+    player.loop = true;
+    player.shouldPlay = false;
+  });
+
+  const handlePlay = () => {
+    setIsPlaying(true);
+    player.play();
+  };
+
   return (
     <ImageBackground
       source={backgroundImage}
@@ -21,17 +33,22 @@ const VideoDetailScreen = () => {
           resizeMode="contain"
         />
         <View style={styles.videoArea}>
-          <Video
-            source={{ uri: 'https://www.w3schools.com/html/mov_bbb.mp4' }}
-            style={{ width: '100%', height: '100%' }}
-            resizeMode="cover"
-            useNativeControls={false}
-            isLooping
-            shouldPlay={false}
-            usePoster={true}
-            posterSource={require('../../../assets/icons/Demo1.webp')}
-            posterStyle={{ width: '100%', height: '100%', resizeMode: 'cover' }}
-          />
+          {!isPlaying ? (
+            // 재생 전: 썸네일 표시
+            <Image 
+              source={require('../../../assets/icons/Demo1.webp')} 
+              style={styles.thumbnail}
+              resizeMode="cover"
+            />
+          ) : (
+            // 재생 중: 비디오 표시
+            <VideoView
+              player={player}
+              style={{ width: '100%', height: '100%' }}
+              allowsFullscreen={false}
+              allowsPictureInPicture={false}
+            />
+          )}
         </View>
       </View>
       <View style={styles.artworkInfoPanelWrapper}>
@@ -42,7 +59,12 @@ const VideoDetailScreen = () => {
         />
       </View>
       <View style={styles.playerControlsWrapper}>
-        <PlayerControls currentTime={0} duration={46} />
+        <PlayerControls 
+          currentTime={0} 
+          duration={46} 
+          onPlay={handlePlay}
+          isPlaying={isPlaying}
+        />
       </View>
     </ImageBackground>
   );
@@ -88,6 +110,10 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 112,
     zIndex: 10,
+  },
+  thumbnail: {
+    width: '100%',
+    height: '100%',
   },
 });
 

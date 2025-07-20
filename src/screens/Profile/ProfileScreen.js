@@ -21,7 +21,6 @@ export default function ProfileScreen() {
   
   // Reanimated 값들
   const screenOpacity = useSharedValue(0);
-  const contentOpacity = useSharedValue(0);
 
   // 화면 진입 시 페이드 인 애니메이션
   useEffect(() => {
@@ -43,11 +42,6 @@ export default function ProfileScreen() {
         });
         
         setIsLoading(false);
-        
-        // 로딩 완료 시 콘텐츠 페이드 인
-        contentOpacity.value = withTiming(1, {
-          duration: 400,
-        });
       }, 0);
     };
 
@@ -58,13 +52,6 @@ export default function ProfileScreen() {
   const screenAnimatedStyle = useAnimatedStyle(() => {
     return {
       opacity: screenOpacity.value,
-    };
-  });
-
-  // 콘텐츠 페이드 인 스타일
-  const contentAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: contentOpacity.value,
     };
   });
 
@@ -81,7 +68,7 @@ export default function ProfileScreen() {
             <View style={styles.loadingContainer} />
           ) : (
             <Animated.View 
-              style={[styles.contentContainer, contentAnimatedStyle]}
+              style={styles.contentContainer}
               entering={FadeIn.duration(400)}
               exiting={FadeOut.duration(200)}
             >
