@@ -1,18 +1,28 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { login } from '../store/authSlice';
 
-const backgroundImage = require('../../assets/바탕화면.jpg');
-const logo = require('../../assets/앱 로고.png');
-const googleLogo = require('../../assets/google-logo.png'); 
+const backgroundImage = require('../../assets/backgrounds/바탕화면.webp');
+const logo = require('../../assets/logos/app_logo.webp');
+const googleLogo = require('../../assets/logos/google-logo.webp'); 
 
 const LoginScreen = () => {
+  const dispatch = useDispatch();
+
+  const handleGoogleLogin = () => {
+    // Google 로그인 로직을 여기에 구현할 수 있습니다
+    // 구글 OAuth api 호출
+    // 현재는 단순히 로그인 상태만 변경합니다
+    dispatch(login({ id: 'user123', name: '사용자' }));
+  };
   return (
     <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
       <Image source={logo} style={styles.logo} resizeMode="contain" />
       <Text style={styles.title}> 박물관이 살아있다 </Text>
       {/* 하단 구글 로그인 버튼 */}
       <View style={styles.bottomContainer}>
-        <TouchableOpacity style={styles.googleButton} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.googleButton} activeOpacity={0.8} onPress={handleGoogleLogin}>
           <Image source={googleLogo} style={styles.googleLogo} />
           <Text style={styles.googleButtonText}>Google로 시작하기</Text>
         </TouchableOpacity>

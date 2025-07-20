@@ -1,10 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/authSlice';
 
 export default function ProfileActions() {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <View style={styles.bottomRow}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleLogout}>
         <Text style={styles.bottomText}>로그아웃</Text>
       </TouchableOpacity>
       <Text style={styles.bottomDivider}> | </Text>
