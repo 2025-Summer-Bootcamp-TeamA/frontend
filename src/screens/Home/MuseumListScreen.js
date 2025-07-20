@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 24,
-    paddingTop: 80,
+    paddingTop: 100,
     paddingBottom: 40,
   },
   title: {
