@@ -44,7 +44,7 @@ const museums = [
   },
 ];
 
-const HomeScreen = ({ navigation }) => (
+const HomeScreen = ({ navigation, selectedMuseumName }) => (
   <ImageBackground
     source={MainFeatureBg}
     style={{ flex: 1 }}
@@ -53,7 +53,9 @@ const HomeScreen = ({ navigation }) => (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.greetingBox}>
         <Text style={styles.greeting}>안녕하세요, 준영님!</Text>
-        <Text style={styles.welcome}>xx 박물관에 오신걸 환영합니다.</Text>
+        <Text style={styles.welcome}>
+          {selectedMuseumName ? `${selectedMuseumName}에 오신걸 환영합니다.` : '박물관에 오신걸 환영합니다.'}
+        </Text>
       </View>
       <MainFeatureCard
         imageSource={MainFeatureBg}

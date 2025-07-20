@@ -3,12 +3,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/Home/HomeScreen';
 import LibraryScreen from '../screens/Library/LibraryScreen';
 import ProfileScreen from '../screens/Profile/ProfileScreen';
-import MuseumListScreen from '../screens/Home/MuseumListScreen';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
-export default function MainTabs() {
+export default function MainTabs({ route }) {
+  // route.params에서 선택된 박물관 이름 가져오기
+  const selectedMuseumName = route?.params?.selectedMuseumName;
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -33,7 +35,9 @@ export default function MainTabs() {
       })}
     >
       <Tab.Screen name="Library" component={LibraryScreen} />
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home">
+        {(props) => <HomeScreen {...props} selectedMuseumName={selectedMuseumName} />}
+      </Tab.Screen>
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
