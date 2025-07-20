@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MuseumChooseCard from '../../components/Home/Museumchoosecard.js';
+import * as Location from 'expo-location';
 
 // 박물관 데이터 예시
 const museums = [
@@ -29,6 +30,20 @@ const museums = [
 
 export default function MuseumListScreen() {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('위치 권한이 거부되었습니다.');
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      console.log('현재 위치:', location);
+      // 위도: location.coords.latitude
+      // 경도: location.coords.longitude
+    })();
+  }, []);
 
   const handleMuseumSelect = (museum) => {
     // 박물관 선택 시 MainTabs로 이동하면서 선택된 박물관 이름만 전달
