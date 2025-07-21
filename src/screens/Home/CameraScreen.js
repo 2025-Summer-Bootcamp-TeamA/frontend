@@ -93,10 +93,15 @@ const CameraScreen = ({ navigation }) => {
 
   // 확인(추후 로직 연결)
   const handleConfirm = () => {
-    if (photoLocal && typeof route.params?.index === 'number') {
+    if (
+      photoLocal &&
+      typeof route.params?.index === 'number' &&
+      route.params.index >= 0
+    ) {
       dispatch(setPhoto({ index: route.params.index, uri: photoLocal }));
       navigation.goBack();
     } else {
+      console.warn('Invalid photo or index parameter');
       navigation.goBack();
     }
   };
