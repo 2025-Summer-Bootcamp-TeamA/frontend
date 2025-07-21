@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     height: 1.5,
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
     width: '100%', // 전체 너비로 설정
+    marginBottom: 20,
   },
 });
 
