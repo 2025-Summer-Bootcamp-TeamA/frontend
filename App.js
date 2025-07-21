@@ -11,6 +11,7 @@ import Onboarding from './src/screens/Home/Onboarding';
 import PhotoUpload from './src/screens/Home/PhotoUpload';
 import LoadingScreen from './src/screens/Home/LoadingScreen';
 import VideoDetailScreen from './src/screens/Library/VideoDetailScreen';
+import CameraScreen from './src/screens/Home/CameraScreen';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
@@ -61,6 +62,7 @@ function AppContent() {
             />
             <Stack.Screen name="Onboarding" component={Onboarding} />
             <Stack.Screen name="PhotoUpload" component={PhotoUpload} />
+            <Stack.Screen name="CameraScreen" component={CameraScreen} />
             <Stack.Screen name="Loading" component={LoadingScreen} />
             <Stack.Screen name="VideoDetail" component={VideoDetailScreen} />
           </>
