@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
@@ -52,21 +52,36 @@ const CameraScreen = ({ navigation }) => {
       try {
         setIsProcessing(true);
         const result = await cameraRef.current.takePictureAsync();
-        // 이미지 크기 정보 필요
         const { width: imgW, height: imgH, uri } = result;
-        // 프레임의 위치/크기를 이미지 해상도 기준으로 환산
+
+        // 1. 이미지 해상도 검증
+        if (imgW < 800 || imgH < 800) {
+          Alert.alert('오류', '이미지 해상도가 너무 낮습니다. 다시 촬영해 주세요.');
+          return;
+        }
+
+        // 2. 크롭 영역 계산
         const cropLeft = Math.round((FRAME_LEFT / SCREEN_WIDTH) * imgW);
         const cropTop = Math.round((FRAME_TOP / SCREEN_HEIGHT) * imgH);
         const cropWidth = Math.round((FRAME_WIDTH / SCREEN_WIDTH) * imgW);
         const cropHeight = Math.round((FRAME_HEIGHT / SCREEN_HEIGHT) * imgH);
+
+        // 3. 크롭 영역 검증
+        if (cropLeft + cropWidth > imgW || cropTop + cropHeight > imgH) {
+          console.warn('Crop area exceeds image bounds');
+          Alert.alert('오류', '크롭 영역이 이미지 범위를 벗어났습니다. 다시 시도해 주세요.');
+          return;
+        }
+
         const cropResult = await ImageManipulator.manipulateAsync(
           uri,
           [{ crop: { originX: cropLeft, originY: cropTop, width: cropWidth, height: cropHeight } }],
           { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
         );
-        setPhotoLocal(cropResult.uri); // 이름 변경
+        setPhotoLocal(cropResult.uri);
       } catch (e) {
-        // 에러 처리
+        console.error('Photo capture failed:', e);
+        Alert.alert('오류', '사진 촬영 중 오류가 발생했습니다.');
       } finally {
         setIsProcessing(false);
       }
