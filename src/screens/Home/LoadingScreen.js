@@ -19,6 +19,7 @@ const LoadingScreen = ({ navigation }) => {
     <ImageBackground
       source={require('../../../assets/backgrounds/바탕화면.webp')}
       style={styles.background}
+      resizeMode="cover"
     >
       <View style={styles.center}>
         <Image
@@ -36,7 +37,6 @@ const LoadingScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    resizeMode: 'cover',
     justifyContent: 'center',
     alignItems: 'center',
   },
