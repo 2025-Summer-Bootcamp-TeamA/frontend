@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, Alert, ActivityIndicator } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
@@ -117,10 +117,10 @@ const CameraScreen = ({ navigation }) => {
         <>
           <Image source={{ uri: photoLocal }} style={styles.preview} resizeMode="cover" />
           <View style={styles.previewButtonRow}>
-            <TouchableOpacity style={styles.button} onPress={handleRetake}>
+            <TouchableOpacity style={styles.button} onPress={handleRetake} disabled={isProcessing}>
               <Text style={styles.buttonText}>재촬영</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={handleConfirm}>
+            <TouchableOpacity style={styles.button} onPress={handleConfirm} disabled={isProcessing}>
               <Text style={styles.buttonText}>확인</Text>
             </TouchableOpacity>
           </View>
@@ -129,7 +129,7 @@ const CameraScreen = ({ navigation }) => {
         <>
           {/* 안내 텍스트 */}
           <View style={styles.guideTextContainer} pointerEvents="none">
-            <Text style={styles.guideText}> 촬영하고자 하는 작품을{'\n'}
+            <Text style={styles.guideText}> 촬영하고자 하는 작품을{"\n"}
             화면 중앙에 맞춰 찍어주세요</Text>
           </View>
           <CameraView
@@ -160,6 +160,12 @@ const CameraScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </>
+      )}
+      {/* 처리 중 오버레이 */}
+      {isProcessing && (
+        <View style={styles.processingOverlay}>
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
       )}
     </Animated.View>
   );
@@ -286,6 +292,13 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
     textAlign: 'center',
     lineHeight: 20,
+  },
+  processingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 100,
   },
 });
 
