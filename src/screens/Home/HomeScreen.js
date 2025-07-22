@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, Text, ScrollView, ImageBackground } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 // MainFeature 배경 이미지 import
+import Bg from '../../../assets/backgrounds/바탕화면.webp';
 import MainFeatureBg from '../../../assets/backgrounds/MainFeature 배경.webp';
 
 import Demo1 from '../../../assets/Demo/Demobg1.webp';
@@ -46,7 +46,7 @@ const museums = [
 
 const HomeScreen = ({ navigation, selectedMuseumName }) => (
   <ImageBackground
-    source={MainFeatureBg}
+    source={Bg}
     style={{ flex: 1 }}
     resizeMode="cover"
   >

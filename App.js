@@ -21,6 +21,7 @@ function AppContent() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const [fontsLoaded] = useFonts({
     'NotoSerif': require('./assets/fonts/NotoSerif-Regular.ttf'),
+    'Pretendard-Bold': require('./assets/fonts/Pretendard-Bold.otf'),
   });
 
   if (!fontsLoaded) {
