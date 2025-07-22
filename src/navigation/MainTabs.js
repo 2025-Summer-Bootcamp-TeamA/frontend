@@ -4,6 +4,7 @@ import HomeScreen from '../screens/Home/HomeScreen';
 import LibraryScreen from '../screens/Library/LibraryScreen';
 import ProfileScreen from '../screens/Profile/ProfileScreen';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { View, Image, Text } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,12 +16,20 @@ export default function MainTabs({ route }) {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={({ route }) => ({
-        tabBarStyle: { backgroundColor: '#222' },
-        tabBarActiveTintColor: '#fff',
-        tabBarInactiveTintColor: '#aaa',
+        tabBarStyle: {
+          backgroundColor: '#000000',
+          borderTopColor: '#232526',
+          borderTopWidth: 0.5,
+        },
+        tabBarActiveTintColor: '#F5F5F7',
+        tabBarInactiveTintColor: '#888A8C',
         headerShown: true,
-        headerStyle: { backgroundColor: '#222' },
-        headerTitleStyle: { color: '#fff' },
+        headerStyle: {
+          backgroundColor: '#000000',
+          borderBottomColor: '#232526',
+          borderBottomWidth: 0.5,
+        },
+        headerTitleStyle: { color: '#F5F5F7' },
         tabBarIcon: ({ color, size }) => {
           if (route.name === 'Library') {
             return <MaterialIcons name="video-library" size={size} color={color} />;
@@ -34,11 +43,46 @@ export default function MainTabs({ route }) {
         },
       })}
     >
-      <Tab.Screen name="Library" component={LibraryScreen} />
-      <Tab.Screen name="Home">
+      <Tab.Screen name="Library"
+        component={LibraryScreen}
+        options={{
+          headerTitle: () => (
+            <Text style={{ color: '#fff', fontSize: 17, fontWeight: 'bold', fontFamily: 'Pretendard-Bold' }}>
+              라이브러리
+            </Text>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Home"
+        options={{
+          headerLeft: () => (
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 2 }}>
+              <Image
+                source={require('../../assets/logos/app_logo.webp')}
+                style={{ width: 50, height: 50 }}
+                resizeMode="contain"
+              />
+              <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold', fontFamily: 'Pretendard-Bold' }}>
+                박물관이 살아있다
+              </Text>
+            </View>
+          ),
+          headerTitle: '',
+        }}
+      >
         {(props) => <HomeScreen {...props} selectedMuseumName={selectedMuseumName} />}
       </Tab.Screen>
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile"
+        component={ProfileScreen}
+        options={{
+          headerTitle: () => (
+            <Text style={{ color: '#fff', fontSize: 17, fontWeight: 'bold', fontFamily: 'Pretendard-Bold' }}>
+              프로필
+            </Text>
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
