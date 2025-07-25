@@ -2,53 +2,34 @@ import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, ScrollView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MuseumChooseCard from '../../components/Home/Museumchoosecard.js';
-import * as Location from 'expo-location';
 
 // 박물관 데이터 예시
 const museums = [
   {
-    name: '국립중앙박물관',
-    address: '서울 용산구 서빙고로 137',
-    pieces: '207,458+ pieces',
+    name: '루브르 박물관',
+    address: 'Rue de Rivoli, 75001 Paris, France',
+    pieces: '380,000+ pieces',
   },
   {
-    name: '국립현대미술관',
-    address: '서울 종로구 삼청로 30',
-    pieces: '8,000+ pieces',
+    name: '오랑주리 미술관',
+    address: 'Jardin des Tuileries, Paris 75001, France',
+    pieces: '144+ pieces',
   },
   {
-    name: '서울역사박물관',
-    address: '서울 종로구 새문안로 55',
-    pieces: '45,000+ pieces',
+    name: '오르세 미술관',
+    address: 'Esplanade Valéry Giscard d\'Estaing, 75007 Paris, France',
+    pieces: '4,000+ pieces',
   },
   {
-    name: '전쟁기념관',
-    address: '서울 용산구 이태원로 29',
-    pieces: '33,000+ pieces',
+    name: '퐁피두 센터',
+    address: 'Place Georges-Pompidou, 75004 Paris, France',
+    pieces: '120,000+ pieces',
   },
 ];
 
 export default function MuseumListScreen() {
   const navigation = useNavigation();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          Alert.alert('위치 권한 필요', '위치 권한이 거부되었습니다. 위치 기반 서비스를 이용하려면 권한이 필요합니다.');
-          return;
-        }
-        let location = await Location.getCurrentPositionAsync({});
-        console.log('현재 위치:', location);
-        // 위도: location.coords.latitude
-        // 경도: location.coords.longitude
-      } catch (e) {
-        console.error('위치 정보 가져오기 실패:', e);
-        Alert.alert('오류', '위치 정보를 가져오는 데 실패했습니다.');
-      }
-    })();
-  }, []);
 
   const handleMuseumSelect = (museum) => {
     // 박물관 선택 시 MainTabs로 이동하면서 선택된 박물관 이름만 전달

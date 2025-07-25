@@ -14,32 +14,32 @@ import MainFeatureCard from '../../components/Home/MainFeatureCard';
 const museums = [
   {
     id: '1',
-    name: '국립중앙박물관',
-    address: '서울 용산구 서빙고로 137 ',
+    name: '루브르 박물관',
+    address: 'Rue de Rivoli, 75001 Paris, France',
     image: Demo1,
   },
   {
     id: '2',
-    name: '국립현대미술관',
-    address: '서울 종로구 삼청로 30',
+    name: '오랑주리 미술관',
+    address: 'Jardin des Tuileries, Paris 75001, France',
     image: Demo2,
   },
   {
     id: '3',
-    name: '서울역사박물관',
-    address: '서울 종로구 새문안로 55',
+    name: '오르세 미술관',
+    address:  'Esplanade Valéry Giscard d\'Estaing, 75007 Paris, France',
     image: Demo3,
   },
   {
     id: '4',
-    name: '전쟁기념관',
-    address: '서울 용산구 이태원로 29',
+    name: '퐁피두 센터',
+    address:'Place Georges-Pompidou, 75004 Paris, France',
     image: Demo1,
   },
   {
     id: '5',
-    name: '국립민속박물관',
-    address: '서울 종로구 삼청로 37',
+    name:'피카소 미술관',
+    address:'5 rue de Thorigny, 75003 Paris, France',
     image: Demo2,
   },
 ];
@@ -59,7 +59,7 @@ const HomeScreen = ({ navigation, selectedMuseumName }) => (
       </View>
       <MainFeatureCard
         imageSource={MainFeatureBg}
-        title="박물관 그 이 이상의 경험"
+        title="박물관 그 이상의 경험"
         subtitle="한 장의 사진이 특별한 이야기가 됩니다"
         navigation={navigation}
       />
