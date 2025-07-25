@@ -12,43 +12,19 @@ import Animated, {
 import MuseumSection from '../../components/Library/MuseumSection';
 import CustomSkeleton from '../../components/Library/CustomSkeleton';
 import { useNavigation } from '@react-navigation/native';
-
-const dummyData = [
-  {
-    title: '국립중앙박물관',
-    artworks: [
-      { id: '1', image: require('../../../assets/Demo/Demobg1.webp'), title: '훈민정음', artist: '세종대왕' },
-      { id: '2', image: require('../../../assets/Demo/Demobg2.webp'), title: '금관', artist: '신라 장인' },
-      { id: '3', image: require('../../../assets/Demo/Demobg3.webp'), title: '백제 금동대향로', artist: '백제 장인' },
-    ],
-  },
-  {
-    title: '서울역사박물관',
-    artworks: [
-      { id: '4', image: require('../../../assets/Demo/Demobg1.webp'), title: '한양도성', artist: '조선 건축가' },
-      { id: '5', image: require('../../../assets/Demo/Demobg2.webp'), title: '경복궁', artist: '정도전' },
-      { id: '6', image: require('../../../assets/Demo/Demobg3.webp'), title: '창덕궁', artist: '조선 왕실' },
-    ],
-  },
-  {
-    title: '국립화폐박물관',
-    artworks: [
-      { id: '7', image: require('../../../assets/Demo/Demobg1.webp'), title: '상평통보', artist: '조선 조폐국' },
-      { id: '8', image: require('../../../assets/Demo/Demobg2.webp'), title: '천원권 지폐', artist: '한국은행' },
-      { id: '9', image: require('../../../assets/Demo/Demobg3.webp'), title: '오천원권 지폐', artist: '한국은행' },
-    ],
-  },
-];
+import { useSelector } from 'react-redux';
 
 const backgroundImage = require('../../../assets/backgrounds/바탕화면.webp');
 
 const LibraryScreen = () => {
   const navigation = useNavigation();
+  const videoLibrary = useSelector(state => state.library.videoLibrary);
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState(null);
+  const [museumSections, setMuseumSections] = useState([]);
   
   // Reanimated 값들
-  const screenOpacity = useSharedValue(0);
+  const screenOpacity = useSharedValue(0)
+  ;
   const contentOpacity = useSharedValue(0);
 
   // 화면 진입 시 페이드 인 애니메이션
@@ -58,26 +34,29 @@ const LibraryScreen = () => {
     });
   }, []);
 
-  // 데이터 로딩 시뮬레이션 (미래 API 호출을 대비)
+  // 데이터 로딩 및 그룹핑
   useEffect(() => {
-    const loadData = async () => {
-      // 현재는 dummyData 사용, 미래에는 API 호출로 변경
-      // const response = await fetchLibraryData();
-      
-      // 로딩 효과를 위한 지연 (실제 API 호출 시에는 제거)
-      setTimeout(() => {
-        setData(dummyData);
-        setIsLoading(false);
-        
-        // 로딩 완료 시 콘텐츠 페이드 인
-        contentOpacity.value = withTiming(1, {
-          duration: 400,
-        });
-      }, 200); // 800ms 지연으로 Skeleton UI 효과 확인
-    };
-
-    loadData();
-  }, []);
+    // 로딩 효과를 위한 지연 (실제 API 호출 시에는 제거)
+    setTimeout(() => {
+      // museum 이름별로 그룹핑
+      const grouped = videoLibrary.reduce((acc, video) => {
+        if (!acc[video.museum]) acc[video.museum] = [];
+        acc[video.museum].push(video);
+        return acc;
+      }, {});
+      const sections = Object.entries(grouped).map(([title, artworks]) => ({
+        title,
+        placeId: artworks[0]?.placeId,
+        artworks,
+      }));
+      setMuseumSections(sections);
+      setIsLoading(false);
+      // 로딩 완료 시 콘텐츠 페이드 인
+      contentOpacity.value = withTiming(1, {
+        duration: 400,
+      });
+    }, 200);
+  }, [videoLibrary]);
 
   // 화면 페이드 인 스타일
   const screenAnimatedStyle = useAnimatedStyle(() => {
@@ -93,8 +72,8 @@ const LibraryScreen = () => {
     };
   });
 
-  const handlePressArtwork = (artworkId) => {
-    navigation.navigate('VideoDetail', { id: artworkId });
+  const handlePressArtwork = (videoId) => {
+    navigation.navigate('VideoDetail', { id: videoId });
   };
 
   return (
@@ -108,9 +87,9 @@ const LibraryScreen = () => {
               <Animated.View 
                 style={contentAnimatedStyle}
               >
-                {data?.map((museum, idx) => (
+                {museumSections.map((museum, idx) => (
                   <MuseumSection
-                    key={museum.title + idx}
+                    key={museum.placeId}
                     title={museum.title}
                     artworks={museum.artworks}
                     onPressArtwork={handlePressArtwork}

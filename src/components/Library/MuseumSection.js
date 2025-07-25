@@ -8,9 +8,9 @@ const MuseumSection = ({ title, artworks, onPressArtwork }) => (
     <FlatList
       data={artworks}
       renderItem={({ item }) => (
-        <ArtworkCard {...item} onPress={() => onPressArtwork && onPressArtwork(item.id)} />
+        <ArtworkCard {...item} onPress={() => onPressArtwork && onPressArtwork(item.videoId)} />
       )}
-      keyExtractor={(item, index) => item.id ? String(item.id) : String(index)}
+      keyExtractor={(item, index) => item.videoId ? String(item.videoId) : String(index)}
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.listContent}

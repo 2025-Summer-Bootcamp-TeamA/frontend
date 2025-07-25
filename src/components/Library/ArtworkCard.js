@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-const ArtworkCard = ({ image, title, artist, onPress }) => (
+const ArtworkCard = ({ thumbnailUrl,artworkInfo, onPress }) => (
   <TouchableOpacity style={styles.card} activeOpacity={0.7} onPress={onPress}>
-    <Image source={image} style={styles.image} />
-    <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">{title}</Text>
-    <Text style={styles.artist} numberOfLines={1} ellipsizeMode="tail">{artist}</Text>
+    <Image source={thumbnailUrl} style={styles.image} />
+    <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">{artworkInfo.title}</Text>
+    <Text style={styles.artist} numberOfLines={1} ellipsizeMode="tail">{artworkInfo.artist}</Text>
   </TouchableOpacity>
 );
 
