@@ -9,12 +9,12 @@ export default function MuseumChooseCard({ name, address, pieces, onPress }) {
       <View style={styles.borderContainer}>
         <BlurView intensity={80} tint="dark" style={styles.blurContainer}>
           <View style={styles.content}>
-            <View>
-              <Text style={styles.name}>{name}</Text>
-              <Text style={styles.address}>{address}</Text>
+            <View style={styles.textBlock}>
+              <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">{name}</Text>
+              <Text style={styles.address} numberOfLines={1} ellipsizeMode="tail">{address}</Text>
               <Text style={styles.pieces}>{pieces}</Text>
             </View>
-            <Icon name="chevron-forward" size={28} color="#fff" />
+            <Icon name="chevron-forward" size={28} color="#fff" style={styles.chevron} />
           </View>
         </BlurView>
       </View>
@@ -43,6 +43,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  textBlock: {
+    flex: 1,
+    minWidth: 0,
+  },
+  chevron: {
+    marginLeft: 16,
+    flexShrink: 0,
   },
   name: { color: '#fff', fontWeight: 'bold', fontSize: 20, marginBottom: 4 },
   address: { color: '#fff', fontSize: 14, marginBottom: 2 },

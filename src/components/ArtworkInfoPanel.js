@@ -3,7 +3,7 @@ import { Animated, PanResponder, View, Text, StyleSheet, Dimensions } from 'reac
 import { BlurView } from 'expo-blur';
 
 const MIN_HEIGHT = 160;
-const MAX_HEIGHT = 296;
+const MAX_HEIGHT = 380;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const ArtworkInfoPanel = ({
@@ -56,7 +56,7 @@ const ArtworkInfoPanel = ({
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.artist}>{artist}</Text>
         <View style={styles.scriptWrapper}>
-          <Text style={styles.script} numberOfLines={5}>{script}</Text>
+          <Text style={styles.script}>{script}</Text>
         </View>
       </View>
     </Animated.View>
@@ -95,8 +95,7 @@ const styles = StyleSheet.create({
     opacity:0.7
   },
   scriptWrapper: {
-    flex: 1,
-    justifyContent: 'flex-start',
+    alignSelf: 'flex-start',
   },
   script: {
     color: '#fff',
