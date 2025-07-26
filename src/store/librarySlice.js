@@ -142,8 +142,9 @@ const librarySlice = createSlice({
       state.videoLibrary.push(action.payload);
     },
     deleteVideo: (state, action) => {
-      // action.payload: videoId
-      state.videoLibrary = state.videoLibrary.filter(video => video.videoId !== action.payload);
+      // action.payload: videoId 또는 videoId 배열
+      const idsToDelete = Array.isArray(action.payload) ? action.payload : [action.payload];
+      state.videoLibrary = state.videoLibrary.filter(video => !idsToDelete.includes(video.videoId));
     },
     updateVideo: (state, action) => {
       // action.payload: { videoId, updates }

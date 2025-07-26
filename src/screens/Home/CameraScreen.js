@@ -7,6 +7,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import { useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { setPhoto } from '../../store/photoSlice';
+import { createAvatar } from '../../api/avatars/createAvatarApi';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const FRAME_WIDTH = Math.round(SCREEN_WIDTH * 0.8); // 화면의 80% 너비
@@ -27,6 +28,7 @@ const CameraScreen = ({ navigation }) => {
   useEffect(() => {
     translateY.value = withTiming(0, { duration: 600 });
   }, []);
+
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
   }));
@@ -93,6 +95,7 @@ const CameraScreen = ({ navigation }) => {
 
   // 확인(추후 로직 연결)
   const handleConfirm = () => {
+    createAvatar(photoLocal);
     if (
       photoLocal &&
       typeof route.params?.index === 'number' &&

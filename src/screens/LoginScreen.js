@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     color: '#444',
     fontWeight: 'bold',
   },
+
 });
 
 export default LoginScreen; 
