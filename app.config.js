@@ -3,7 +3,7 @@ export default ({ config }) => {
     ...config,
     extra: {
       ...config.extra,
-      API_BASE_URL: 'https://hiedu.site/',
+      API_BASE_URL: 'https://hiedu.site/api/v1',
     },
   };
 }; 

@@ -11,21 +11,32 @@ import { videoGenerationAxios } from '../../config/axios.config';
  *   - 실패(400): { success: false, error, message, retry_required, suggestion }
  *   - 실패(500): { success: false, error, message, retry_required, detail }
  */
-export const createAvatar = async (imageFile) => {
-  if (!imageFile) {
-    throw new Error('이미지 파일이 필요합니다.');
+export const createAvatar = async (imageUri) => {
+  if (!imageUri) {
+    throw new Error('이미지 파일');
   }
 
-  const formData = new FormData();
-  formData.append('file', imageFile);
-
   try {
-    const response = await videoGenerationAxios.post('/avatars', formData, {
+    // URI를 파일 객체로 변환
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+    
+    // 파일 객체 생성
+    const fileName = imageUri.split('/').pop() || 'image.jpg';
+    const file = new File([blob], fileName, { type: 'image/jpeg' });
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    console.log('Request URL:', `${videoGenerationAxios.defaults.baseURL}/avatars`);
+    console.log('FormData file:', file);
+    
+    const apiResponse = await videoGenerationAxios.post('/avatars', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    return response.data;
+    return apiResponse.data;
   } catch (error) {
     if (error.response) {
       // 서버에서 응답이 온 경우 (400, 500 등)
