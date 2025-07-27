@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const PhotoRemoveModal = ({ visible, onCancel, onDelete }) => (
+const PhotoRemoveModal = ({ visible, onCancel, onDelete, message = "정말 이 사진을 삭제하시겠어요?" }) => (
   <Modal
     visible={visible}
     transparent
@@ -11,7 +11,7 @@ const PhotoRemoveModal = ({ visible, onCancel, onDelete }) => (
     <View style={styles.modalOverlay}>
       <View style={styles.modalContent}>
         <Text style={styles.modalTitle}>사진 삭제</Text>
-        <Text style={styles.modalMessage}>정말 이 사진을 삭제하시겠어요?</Text>
+        <Text style={styles.modalMessage}>{message}</Text>
         <View style={styles.modalButtonRow}>
           <TouchableOpacity style={styles.modalCancelButton} onPress={onCancel}>
             <Text style={styles.modalCancelText}>취소</Text>

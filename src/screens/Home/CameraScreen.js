@@ -7,6 +7,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import { useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { setPhoto } from '../../store/photoSlice';
+import { createAvatar } from '../../api/avatars/createAvatarApi';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const FRAME_WIDTH = Math.round(SCREEN_WIDTH * 0.8); // 화면의 80% 너비
@@ -27,6 +28,7 @@ const CameraScreen = ({ navigation }) => {
   useEffect(() => {
     translateY.value = withTiming(0, { duration: 600 });
   }, []);
+
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
   }));
@@ -92,7 +94,38 @@ const CameraScreen = ({ navigation }) => {
   const handleRetake = () => setPhotoLocal(null); // 이름 변경
 
   // 확인(추후 로직 연결)
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
+    try {
+      console.log('=== 아바타 생성 API 호출 시작 ===');
+      console.log('전송할 이미지 URI:', photoLocal);
+      
+      const result = await createAvatar(photoLocal);
+      console.log('=== API 응답 결과 ===');
+      console.log('전체 응답:', result);
+      console.log('성공 여부:', result.success);
+      
+      if (result.success) {
+        console.log('아바타 ID:', result.avatar_id);
+        console.log('썸네일 URL:', result.thumbnail_url);
+        console.log('업로드된 원본 URL:', result.uploaded_url);
+        console.log('메시지:', result.message);
+      } else {
+        console.log('에러 타입:', result.error);
+        console.log('에러 메시지:', result.message);
+        console.log('재시도 필요:', result.retry_required);
+        if (result.suggestion) {
+          console.log('개선 제안:', result.suggestion);
+        }
+        if (result.detail) {
+          console.log('상세 에러:', result.detail);
+        }
+      }
+      console.log('=== API 호출 완료 ===');
+    } catch (error) {
+      console.error('=== API 호출 중 에러 발생 ===');
+      console.error('에러:', error);
+    }
+    
     if (
       photoLocal &&
       typeof route.params?.index === 'number' &&

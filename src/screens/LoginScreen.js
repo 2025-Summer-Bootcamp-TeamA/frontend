@@ -1,14 +1,23 @@
 import React from 'react';
 import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/authSlice';
+import { selectIsLoggedIn } from '../store/authSlice';
+import { useEffect } from 'react';
 
-const backgroundImage = require('../../assets/backgrounds/바탕화면.webp');
-const logo = require('../../assets/logos/app_logo.webp');
+const backgroundImage = require('../../assets/backgrounds/바탕화면1.webp');
 const googleLogo = require('../../assets/logos/google-logo.webp');
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  // 로그인 상태가 변경되면 MuseumList로 이동
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigation.replace('MuseumList');
+    }
+  }, [isLoggedIn, navigation]);
 
   // 실제 Google OAuth 없이, 버튼 클릭 시 로그인 처리
   const handleGoogleLogin = () => {
@@ -17,8 +26,6 @@ const LoginScreen = () => {
 
   return (
     <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
-      <Image source={logo} style={styles.logo} resizeMode="contain" />
-      <Text style={styles.title}> 박물관이 살아있다 </Text>
       {/* 하단 구글 로그인 버튼 */}
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={styles.googleButton} activeOpacity={0.8} onPress={handleGoogleLogin}>
@@ -36,18 +43,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%'
   },
-  logo: {
-    marginTop: 167,
-    alignSelf: 'center',
-    width: 180, // 원하는 로고 크기로 조정
-    height: 180,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'white',
-  },
   bottomContainer: {
     position: 'absolute',
     bottom: 80,
@@ -61,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 30,
     paddingVertical: 12,
-    paddingHorizontal: 30,
+    paddingHorizontal: 35,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
@@ -78,6 +73,7 @@ const styles = StyleSheet.create({
     color: '#444',
     fontWeight: 'bold',
   },
+
 });
 
 export default LoginScreen; 

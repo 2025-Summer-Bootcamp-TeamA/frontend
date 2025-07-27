@@ -9,8 +9,10 @@ import { View, Image, Text } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 export default function MainTabs({ route }) {
-  // route.params에서 선택된 박물관 이름 가져오기
+  // route.params에서 선택된 박물관 정보 가져오기
   const selectedMuseumName = route?.params?.selectedMuseumName;
+  const selectedMuseumAddress = route?.params?.selectedMuseumAddress;
+  const selectedMuseumPlaceId = route?.params?.selectedMuseumPlaceId;
 
   return (
     <Tab.Navigator
@@ -59,19 +61,20 @@ export default function MainTabs({ route }) {
           headerLeft: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 2 }}>
               <Image
-                source={require('../../assets/logos/app_logo.webp')}
-                style={{ width: 50, height: 50 }}
+                source={require('../../assets/logos/homelogo.webp')}
+                style={{ width: 120, height: 120, marginLeft: 15, marginTop: 10}}
                 resizeMode="contain"
               />
-              <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold', fontFamily: 'Pretendard-Bold' }}>
-                박물관이 살아있다
-              </Text>
             </View>
           ),
           headerTitle: '',
         }}
       >
-        {(props) => <HomeScreen {...props} selectedMuseumName={selectedMuseumName} />}
+        {(props) => <HomeScreen {...props} 
+          selectedMuseumName={selectedMuseumName}
+          selectedMuseumAddress={selectedMuseumAddress}
+          selectedMuseumPlaceId={selectedMuseumPlaceId}
+        />}
       </Tab.Screen>
       <Tab.Screen name="Profile"
         component={ProfileScreen}

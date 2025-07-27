@@ -2,15 +2,21 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import ArtworkCard from './ArtworkCard';
 
-const MuseumSection = ({ title, artworks, onPressArtwork }) => (
+const MuseumSection = ({ title, artworks, onPressArtwork, isSelectMode = false, selectedIds = [] }) => (
   <View style={styles.section}>
     <Text style={styles.title}>{title}</Text>
     <FlatList
       data={artworks}
       renderItem={({ item }) => (
-        <ArtworkCard {...item} onPress={() => onPressArtwork && onPressArtwork(item.id)} />
+        <ArtworkCard 
+          {...item} 
+          onPress={() => onPressArtwork && onPressArtwork(item.videoId)}
+          isSelectMode={isSelectMode}
+          selectedIds={selectedIds}
+          videoId={item.videoId}
+        />
       )}
-      keyExtractor={(item, index) => item.id ? String(item.id) : String(index)}
+      keyExtractor={(item, index) => item.videoId ? String(item.videoId) : String(index)}
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.listContent}

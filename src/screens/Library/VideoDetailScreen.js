@@ -4,6 +4,7 @@ import { Video } from 'expo-av';
 import { useEvent } from 'expo';
 import PlayerControls from '../../components/PlayerControls';
 import ArtworkInfoPanel from '../../components/ArtworkInfoPanel';
+import { useRoute } from '@react-navigation/native';
 
 const backgroundImage = require('../../../assets/backgrounds/video_playback_background.webp');
 const frameImage = require('../../../assets/backgrounds/Video_frame.webp');
@@ -11,12 +12,22 @@ const frameImage = require('../../../assets/backgrounds/Video_frame.webp');
 const VIDEO_URL = 'https://storage.googleapis.com/teama-buck/%E1%84%85%E1%85%A6%E1%84%8B%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B3%E1%84%83%E1%85%A9_%E1%84%83%E1%85%A1%E1%84%87%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%B5_%E1%84%86%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8C%E1%85%A1_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%91%E1%85%AE%E1%86%B7_%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2__07-24%2022_20.mp4';
 
 const VideoDetailScreen = () => {
+  const route = useRoute();
+  const { videoId } = route.params;
+  const [videoDetail, setVideoDetail] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
   const videoRef = React.useRef(null);
+
+  useEffect(() => {
+    // TODO: 영상 상세조회 API 호출 예시
+    // fetch(`/videos/${videoId}`)
+    //   .then(res => res.json())
+    //   .then(data => setVideoDetail(data));
+  }, [videoId]);
 
   const handlePlaybackStatusUpdate = (status) => {
     if (status.isLoaded) {
@@ -77,7 +88,7 @@ const VideoDetailScreen = () => {
       </View>
       <View style={styles.artworkInfoPanelWrapper}>
         <ArtworkInfoPanel
-          title="Sukiya Riverbank in the Eastern Capital"
+          title="모나리자"
           artist="레오나르도 다 빈치"
           script="레오나르도 다 빈치의 모나리자(Mona Lisa)는 세계에서 가장 유명한 초상화 중 하나로, 16세기 초 이탈리아에서 완성된 작품이다. 부드러운 미소와 신비로운 눈빛으로 잘 알려져 있으며, 인물의 표정과 배경의 섬세한 묘사가 돋보인다. 다 빈치는 명암법(스푸마토)을 활용해 얼굴과 손의 입체감을 자연스럽게 표현했다. 모나리자가 누구를 모델로 했는지에 대해서는 여러 설이 있지만, 일반적으로 피렌체 상인의 부인 리자 델 조콘도라는 의견이 유력하다. 현재 이 작품은 프랑스 파리의 루브르 박물관에 전시되어 있으며, 전 세계에서 수많은 관람객이 찾는 명작이다."
         />

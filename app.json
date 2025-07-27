@@ -7,11 +7,6 @@
     "icon": "./assets/logos/app_logo.webp",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash/Splash 화면.jpg",
-      "resizeMode": "cover",
-      "backgroundColor": "#000000"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.gjwnsdud2083.myapp",

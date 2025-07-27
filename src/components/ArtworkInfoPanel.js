@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   script: {
     color: '#fff',
     fontSize: 14,
-    lineHeight: 20,
+    lineHeight: 21,
     opacity: 0.7,
   },
 });
