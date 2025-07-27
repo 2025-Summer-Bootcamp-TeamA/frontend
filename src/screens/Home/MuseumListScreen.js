@@ -51,7 +51,7 @@ export default function MuseumListScreen() {
 
   return (
     <ImageBackground
-      source={require('../../../assets/backgrounds/바탕화면.webp')}
+      source={require('../../../assets/backgrounds/HomeScreen.webp')}
       style={styles.background}
       imageStyle={styles.imageStyle}
     >

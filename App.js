@@ -7,6 +7,7 @@ import { selectIsLoggedIn } from './src/store/authSlice';
 import { fetchNearbyMuseums } from './src/store/museumSlice';
 import MainTabs from './src/navigation/MainTabs';
 import LoginScreen from './src/screens/LoginScreen';
+import CustomSplashScreen from './src/screens/CustomSplashScreen';
 import MuseumListScreen from './src/screens/Home/MuseumListScreen';
 import Onboarding from './src/screens/Home/Onboarding';
 import PhotoUpload from './src/screens/Home/PhotoUpload';
@@ -62,40 +63,41 @@ function AppContent() {
         screenOptions={{ 
           headerShown: false,
         }}
+        initialRouteName="Splash"
       >
-        {!isLoggedIn ? (
-          // 로그인하지 않은 경우: 로그인 화면
-          <Stack.Screen 
-            name="Login" 
-            component={LoginScreen}
-            options={{
-              gestureEnabled: false, // 로그인 화면에서만 뒤로 가기 제스처 비활성화
-            }}
-          />
-        ) : (
-          // 로그인한 경우: 박물관 선택 화면부터 시작
-          <>
-            <Stack.Screen 
-              name="MuseumList" 
-              component={MuseumListScreen}
-              options={{
-                gestureEnabled: false, // 박물관 선택 화면에서 뒤로 가기 제스처 비활성화
-              }}
-            />
-            <Stack.Screen 
-              name="MainTabs" 
-              component={MainTabs}
-              options={{
-                gestureEnabled: false, // 메인 화면에서만 뒤로 가기 제스처 비활성화
-              }}
-            />
-            <Stack.Screen name="Onboarding" component={Onboarding} />
-            <Stack.Screen name="PhotoUpload" component={PhotoUpload} />
-            <Stack.Screen name="CameraScreen" component={CameraScreen} />
-            <Stack.Screen name="Loading" component={LoadingScreen} />
-            <Stack.Screen name="VideoDetail" component={VideoDetailScreen} />
-          </>
-        )}
+        <Stack.Screen 
+          name="Splash" 
+          component={CustomSplashScreen}
+          options={{
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen 
+          name="Login" 
+          component={LoginScreen}
+          options={{
+            gestureEnabled: false, // 로그인 화면에서만 뒤로 가기 제스처 비활성화
+          }}
+        />
+        <Stack.Screen 
+          name="MuseumList" 
+          component={MuseumListScreen}
+          options={{
+            gestureEnabled: false, // 박물관 선택 화면에서 뒤로 가기 제스처 비활성화
+          }}
+        />
+        <Stack.Screen 
+          name="MainTabs" 
+          component={MainTabs}
+          options={{
+            gestureEnabled: false, // 메인 화면에서만 뒤로 가기 제스처 비활성화
+          }}
+        />
+        <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="PhotoUpload" component={PhotoUpload} />
+        <Stack.Screen name="CameraScreen" component={CameraScreen} />
+        <Stack.Screen name="Loading" component={LoadingScreen} />
+        <Stack.Screen name="VideoDetail" component={VideoDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

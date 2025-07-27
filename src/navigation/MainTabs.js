@@ -59,13 +59,10 @@ export default function MainTabs({ route }) {
           headerLeft: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 2 }}>
               <Image
-                source={require('../../assets/logos/app_logo.webp')}
-                style={{ width: 50, height: 50 }}
+                source={require('../../assets/logos/homelogo.webp')}
+                style={{ width: 130, height: 130, marginLeft: 15, marginTop: 10}}
                 resizeMode="contain"
               />
-              <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold', fontFamily: 'Pretendard-Bold' }}>
-                박물관이 살아있다
-              </Text>
             </View>
           ),
           headerTitle: '',

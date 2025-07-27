@@ -34,7 +34,7 @@
     "expo-location": "~18.1.6",
     "expo-mlkit-ocr": "^2.0.1",
     "expo-secure-store": "~14.2.3",
-    "expo-splash-screen": "~7.0.1",
+    "expo-splash-screen": "~0.30.10",
     "expo-status-bar": "~2.2.3",
     "expo-updates": "^0.28.17",
     "expo-video": "~2.2.2",
