@@ -6,28 +6,48 @@ import MuseumChooseCard from '../../components/Home/Museumchoosecard.js';
 import { selectMuseums, selectMuseumsLoading, selectMuseumsError } from '../../store/museumSlice';
 
 // 기본 박물관 데이터 (API 실패 시 fallback용)
-const defaultMuseums = [
-  {
-    name: '루브르 박물관',
-    address: 'Rue de Rivoli, 75001 Paris, France',
-    pieces: '380,000+ pieces',
-  },
-  {
-    name: '오랑주리 미술관',
-    address: 'Jardin des Tuileries, Paris 75001, France',
-    pieces: '144+ pieces',
-  },
-  {
-    name: '오르세 미술관',
-    address: 'Esplanade Valéry Giscard d\'Estaing, 75007 Paris, France',
-    pieces: '4,000+ pieces',
-  },
-  {
-    name: '퐁피두 센터',
-    address: 'Place Georges-Pompidou, 75004 Paris, France',
-    pieces: '120,000+ pieces',
-  },
-];
+// const defaultMuseums = [
+//   {
+//     name: '서울역사박물관',
+//     address: '서울 종로구 새문안로 55',
+//     place_id: 'ChIJYYYYYYB7Lj4ARXyb4HFVDV8s',
+//     latitude: 37.5717,
+//     longitude: 126.9794,
+//     web_url: 'https://www.museum.seoul.kr',
+//     distance_m: 591.23,
+//     rank: 1
+//   },
+//   {
+//     name: '한국은행 화폐박물관',
+//     address: '서울 중구 남대문로 39',
+//     place_id: 'ChIJZZZZZZB7Lj4ARXyb4HFVDV8s',
+//     latitude: 37.5598,
+//     longitude: 126.9783,
+//     web_url: 'https://museum.bok.or.kr',
+//     distance_m: 745.48,
+//     rank: 2
+//   },
+//   {
+//     name: '국립민속박물관',
+//     address: '서울 종로구 삼청로 37',
+//     place_id: 'ChIJXXXXXXB7Lj4ARXyb4HFVDV8s',
+//     latitude: 37.5799,
+//     longitude: 126.977,
+//     web_url: 'https://www.nfm.go.kr',
+//     distance_m: 1492.62,
+//     rank: 3
+//   },
+//   {
+//     name: '국립중앙박물관',
+//     address: '서울 용산구 서빙고로 137',
+//     place_id: 'ChIJzVVVVUB7Lj4ARXyb4HFVDV8s',
+//     latitude: 37.5242,
+//     longitude: 126.9806,
+//     web_url: 'https://www.museum.go.kr',
+//     distance_m: 4709.13,
+//     rank: 4
+//   }
+// ];
 
 export default function MuseumListScreen() {
   const navigation = useNavigation();
@@ -38,7 +58,7 @@ export default function MuseumListScreen() {
   const error = useSelector(selectMuseumsError);
 
   // API 데이터가 없거나 에러가 있으면 기본 데이터 사용
-  const displayMuseums = museums.length > 0 ? museums : defaultMuseums;
+  const displayMuseums = museums ;
 
   const handleMuseumSelect = (museum) => {
     // 박물관 선택 시 MainTabs로 이동하면서 선택된 박물관 정보 전달
@@ -73,7 +93,7 @@ export default function MuseumListScreen() {
         {/* 에러가 있을 때 */}
         {error && (
           <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>박물관 정보를 불러올 수 없습니다.</Text>
+            <Text style={styles.errorText}>실시간 박물관 정보를 불러올 수 없습니다.</Text>
             <Text style={styles.errorSubText}>기본 박물관 목록을 표시합니다.</Text>
           </View>
         )}
@@ -81,11 +101,10 @@ export default function MuseumListScreen() {
         {/* 박물관 목록 표시 */}
         {displayMuseums.map((museum, idx) => (
           <MuseumChooseCard
-            key={idx}
+            key={museum.place_id}
             name={museum.name}
             address={museum.address}
-            // 몇 km 떨어져있는지 추가 될듯듯
-            pieces={museum.pieces || '정보 없음'}
+            distance_m={museum.distance_m}
             onPress={() => handleMuseumSelect(museum)}
           />
         ))}

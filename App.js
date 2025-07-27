@@ -41,7 +41,7 @@ function AppContent() {
         dispatch(fetchNearbyMuseums({
           latitude,
           longitude,
-          radius: 3000,
+          radius: 5000,
           keyword: 'museum'
         }));
         

@@ -1,7 +1,7 @@
 import { jsonAxios } from '../../config/axios.config';
 
 /**
- * 근처 박물관 검색 API (POST /places/nearby-museums)
+ * 근처 박물관 검색 API (POST /places/museums/)
  * - 현재 위치(위도, 경도)를 기반으로 근처의 박물관을 검색합니다.
  * - 반경과 키워드를 지정하여 검색 범위를 조정할 수 있습니다.
  *
@@ -15,7 +15,7 @@ import { jsonAxios } from '../../config/axios.config';
 export const searchNearbyMuseums = async ({
   latitude,
   longitude,
-  radius = 3000,
+  radius = 5000,
   keyword = 'museum'
 }) => {
   // 필수 파라미터 검증
@@ -54,7 +54,7 @@ export const searchNearbyMuseums = async ({
       keyword
     };
 
-    const response = await jsonAxios.post('/places/museums', requestBody);
+    const response = await jsonAxios.post('/places/museums/', requestBody);
 
     // 응답 데이터 검증
     if (!Array.isArray(response.data)) {

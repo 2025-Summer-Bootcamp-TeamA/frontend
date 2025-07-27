@@ -2,8 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { BlurView } from 'expo-blur';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { formatDistance, getDistanceColor } from '../../utils/distanceUtils';
 
-export default function MuseumChooseCard({ name, address, pieces, onPress }) {
+export default function MuseumChooseCard({ name, address, distance_m, onPress }) {
+  const distanceText = distance_m ? formatDistance(distance_m) : '거리 정보 없음';
+  const distanceColor = distance_m ? getDistanceColor(distance_m) : '#9E9E9E';
+
   return (
     <TouchableOpacity style={styles.cardWrapper} onPress={onPress} activeOpacity={0.85}>
       <View style={styles.borderContainer}>
@@ -12,7 +16,7 @@ export default function MuseumChooseCard({ name, address, pieces, onPress }) {
             <View style={styles.textBlock}>
               <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">{name}</Text>
               <Text style={styles.address} numberOfLines={1} ellipsizeMode="tail">{address}</Text>
-              <Text style={styles.pieces}>{pieces}</Text>
+              <Text style={[styles.distance, { color: distanceColor }]}>{distanceText}</Text>
             </View>
             <Icon name="chevron-forward" size={28} color="#fff" style={styles.chevron} />
           </View>
@@ -54,5 +58,5 @@ const styles = StyleSheet.create({
   },
   name: { color: '#fff', fontWeight: 'bold', fontSize: 20, marginBottom: 4 },
   address: { color: '#fff', fontSize: 14, marginBottom: 2 },
-  pieces: { color: '#fff', fontSize: 13, opacity: 0.8 },
+  distance: { color: '#fff', fontSize: 13, opacity: 0.8 },
 });

@@ -4,10 +4,10 @@ import { searchNearbyMuseums } from '../api/places/nearbyMuseumsApi';
 // 비동기 액션: 근처 박물관 검색
 export const fetchNearbyMuseums = createAsyncThunk(
   'museum/fetchNearbyMuseums',
-  async ({ latitude, longitude, radius = 3000, keyword = 'museum' }, { rejectWithValue }) => {
+  async ({ latitude, longitude, radius = 5000, keyword = 'museum' }, { rejectWithValue }) => {
     try {
       const museums = await searchNearbyMuseums({ latitude, longitude, radius, keyword });
-      return { museums, location: { latitude, longitude } };
+      return museums;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -47,8 +47,8 @@ const museumSlice = createSlice({
       })
       .addCase(fetchNearbyMuseums.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.museums = action.payload.museums;
-        state.lastLocation = action.payload.location;
+        state.museums = action.payload;
+        state.lastLocation = null; // location 정보 제거
         state.lastFetchTime = Date.now();
         state.error = null;
       })

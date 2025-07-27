@@ -9,8 +9,10 @@ import { View, Image, Text } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 export default function MainTabs({ route }) {
-  // route.params에서 선택된 박물관 이름 가져오기
+  // route.params에서 선택된 박물관 정보 가져오기
   const selectedMuseumName = route?.params?.selectedMuseumName;
+  const selectedMuseumAddress = route?.params?.selectedMuseumAddress;
+  const selectedMuseumPlaceId = route?.params?.selectedMuseumPlaceId;
 
   return (
     <Tab.Navigator
@@ -60,7 +62,7 @@ export default function MainTabs({ route }) {
             <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 2 }}>
               <Image
                 source={require('../../assets/logos/homelogo.webp')}
-                style={{ width: 130, height: 130, marginLeft: 15, marginTop: 10}}
+                style={{ width: 120, height: 120, marginLeft: 15, marginTop: 10}}
                 resizeMode="contain"
               />
             </View>
@@ -68,7 +70,11 @@ export default function MainTabs({ route }) {
           headerTitle: '',
         }}
       >
-        {(props) => <HomeScreen {...props} selectedMuseumName={selectedMuseumName} />}
+        {(props) => <HomeScreen {...props} 
+          selectedMuseumName={selectedMuseumName}
+          selectedMuseumAddress={selectedMuseumAddress}
+          selectedMuseumPlaceId={selectedMuseumPlaceId}
+        />}
       </Tab.Screen>
       <Tab.Screen name="Profile"
         component={ProfileScreen}
