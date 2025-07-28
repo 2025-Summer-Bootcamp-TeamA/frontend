@@ -13,23 +13,33 @@ import { videoGenerationAxios } from '../../config/axios.config';
  */
 export const createAvatar = async (imageUri) => {
   if (!imageUri) {
-    throw new Error('이미지 파일');
+    throw new Error('이미지 파일이 필요합니다');
   }
 
   try {
-    // URI를 파일 객체로 변환
+    // URI를 blob으로 변환
     const response = await fetch(imageUri);
     const blob = await response.blob();
     
-    // 파일 객체 생성
-    const fileName = imageUri.split('/').pop() || 'image.jpg';
-    const file = new File([blob], fileName, { type: 'image/jpeg' });
-
+    // React Native 환경에 맞는 FormData 생성
     const formData = new FormData();
-    formData.append('image', file);
+    
+    // 파일명 추출 (확장자 포함)
+    const fileName = imageUri.split('/').pop() || 'image.jpg';
+    
+    // React Native에서는 File 객체 대신 blob을 직접 사용
+    formData.append('image', {
+      uri: imageUri,
+      type: 'image/jpeg',
+      name: fileName
+    });
 
     console.log('Request URL:', `${videoGenerationAxios.defaults.baseURL}/avatars`);
-    console.log('FormData file:', file);
+    console.log('FormData image:', {
+      uri: imageUri,
+      type: 'image/jpeg',
+      name: fileName
+    });
     
     const apiResponse = await videoGenerationAxios.post('/avatars', formData, {
       headers: {

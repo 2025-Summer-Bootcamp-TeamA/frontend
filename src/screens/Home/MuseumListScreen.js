@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import MuseumChooseCard from '../../components/Home/Museumchoosecard.js';
-import { selectMuseums, selectMuseumsLoading, selectMuseumsError } from '../../store/museumSlice';
+import { selectMuseums, selectMuseumsLoading, selectMuseumsError, setSelectedMuseum } from '../../store/museumSlice';
 
 // 기본 박물관 데이터 (API 실패 시 fallback용)
 // const defaultMuseums = [
@@ -51,6 +51,7 @@ import { selectMuseums, selectMuseumsLoading, selectMuseumsError } from '../../s
 
 export default function MuseumListScreen() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   
   // Redux에서 박물관 데이터 가져오기
   const museums = useSelector(selectMuseums);
@@ -61,12 +62,8 @@ export default function MuseumListScreen() {
   const displayMuseums = museums ;
 
   const handleMuseumSelect = (museum) => {
-    // 박물관 선택 시 MainTabs로 이동하면서 선택된 박물관 정보 전달
-    navigation.navigate('MainTabs', { 
-      selectedMuseumName: museum.name,
-      selectedMuseumAddress: museum.address,
-      selectedMuseumPlaceId: museum.place_id
-    });
+    dispatch(setSelectedMuseum(museum));
+    navigation.navigate('MainTabs');
   };
 
   return (

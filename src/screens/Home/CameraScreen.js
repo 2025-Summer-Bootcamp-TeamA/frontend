@@ -3,10 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, Alert, Act
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
-import * as ImageManipulator from 'expo-image-manipulator';
 import { useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { setPhoto } from '../../store/photoSlice';
+import { setAvatarInfo } from '../../store/avatarSlice';
 import { createAvatar } from '../../api/avatars/createAvatarApi';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -21,7 +21,7 @@ const CameraScreen = ({ navigation }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [photoLocal, setPhotoLocal] = useState(null); // 이름 변경
+  const [photoLocal, setPhotoLocal] = useState(null);
 
   // 아래에서 위로 슬라이드 인 애니메이션
   const translateY = useSharedValue(1000);
@@ -48,12 +48,20 @@ const CameraScreen = ({ navigation }) => {
     );
   }
 
-  // 사진 촬영 함수 (프레임 영역만 crop)
+  // 사진 촬영 함수 (전체 촬영 후 미리보기에서 프레임 영역만 표시)
   const takePicture = async () => {
     if (cameraRef.current) {
       try {
         setIsProcessing(true);
-        const result = await cameraRef.current.takePictureAsync();
+        
+        // 전체 화면 촬영
+        const result = await cameraRef.current.takePictureAsync({
+          quality: 1,
+          base64: false,
+          exif: false,
+          skipProcessing: false,
+        });
+
         const { width: imgW, height: imgH, uri } = result;
 
         // 1. 이미지 해상도 검증
@@ -62,25 +70,8 @@ const CameraScreen = ({ navigation }) => {
           return;
         }
 
-        // 2. 크롭 영역 계산
-        const cropLeft = Math.round((FRAME_LEFT / SCREEN_WIDTH) * imgW);
-        const cropTop = Math.round((FRAME_TOP / SCREEN_HEIGHT) * imgH);
-        const cropWidth = Math.round((FRAME_WIDTH / SCREEN_WIDTH) * imgW);
-        const cropHeight = Math.round((FRAME_HEIGHT / SCREEN_HEIGHT) * imgH);
-
-        // 3. 크롭 영역 검증
-        if (cropLeft + cropWidth > imgW || cropTop + cropHeight > imgH) {
-          console.warn('Crop area exceeds image bounds');
-          Alert.alert('오류', '크롭 영역이 이미지 범위를 벗어났습니다. 다시 시도해 주세요.');
-          return;
-        }
-
-        const cropResult = await ImageManipulator.manipulateAsync(
-          uri,
-          [{ crop: { originX: cropLeft, originY: cropTop, width: cropWidth, height: cropHeight } }],
-          { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-        );
-        setPhotoLocal(cropResult.uri);
+        // 2. 전체 이미지 저장 (미리보기에서 프레임 영역만 표시)
+        setPhotoLocal(uri);
       } catch (e) {
         console.error('Photo capture failed:', e);
         Alert.alert('오류', '사진 촬영 중 오류가 발생했습니다.');
@@ -91,47 +82,94 @@ const CameraScreen = ({ navigation }) => {
   };
 
   // 재촬영
-  const handleRetake = () => setPhotoLocal(null); // 이름 변경
+  const handleRetake = () => setPhotoLocal(null);
 
   // 확인(추후 로직 연결)
   const handleConfirm = async () => {
+    const photoIndex = route.params?.index;
+    
+    // index가 유효한지 확인
+    if (typeof photoIndex !== 'number' || photoIndex < 0 || photoIndex > 1) {
+      console.warn('Invalid photo index parameter');
+      navigation.goBack();
+      return;
+    }
+
     try {
-      console.log('=== 아바타 생성 API 호출 시작 ===');
-      console.log('전송할 이미지 URI:', photoLocal);
-      
-      const result = await createAvatar(photoLocal);
-      console.log('=== API 응답 결과 ===');
-      console.log('전체 응답:', result);
-      console.log('성공 여부:', result.success);
-      
-      if (result.success) {
-        console.log('아바타 ID:', result.avatar_id);
-        console.log('썸네일 URL:', result.thumbnail_url);
-        console.log('업로드된 원본 URL:', result.uploaded_url);
-        console.log('메시지:', result.message);
-      } else {
-        console.log('에러 타입:', result.error);
-        console.log('에러 메시지:', result.message);
-        console.log('재시도 필요:', result.retry_required);
-        if (result.suggestion) {
-          console.log('개선 제안:', result.suggestion);
+      if (photoIndex === 0) {
+        // 첫 번째 사진 (index 0): 아바타 생성 API 호출
+        console.log('=== 아바타 생성 API 호출 시작 ===');
+        console.log('전송할 이미지 URI:', photoLocal);
+        
+        const result = await createAvatar(photoLocal);
+        console.log('=== API 응답 결과 ===');
+        console.log('성공 여부:', result.success);
+        
+        if (result.success) {
+          console.log('아바타 ID:', result.avatar_id);
+          console.log('썸네일 URL:', result.thumbnail_url);
+          console.log('업로드된 원본 URL:', result.uploaded_url);
+          console.log('메시지:', result.message);
+          
+          // 성공 시 avatar 정보를 Redux store에 저장
+          dispatch(setAvatarInfo({
+            avatar_id: result.avatar_id,
+            thumbnail_url: result.thumbnail_url,
+            uploaded_url: result.uploaded_url
+          }));
+        } else {
+          console.log('에러 타입:', result.error);
+          console.log('에러 메시지:', result.message);
+          console.log('재시도 필요:', result.retry_required);
+          if (result.suggestion) {
+            console.log('개선 제안:', result.suggestion);
+          }
+          if (result.detail) {
+            console.log('상세 에러:', result.detail);
+          }
         }
-        if (result.detail) {
-          console.log('상세 에러:', result.detail);
+        console.log('=== 아바타 생성 API 호출 완료 ===');
+        
+      } else if (photoIndex === 1) {
+        // 두 번째 사진 (index 1): OCR 텍스트 추출 API 호출
+        console.log('=== OCR 텍스트 추출 API 호출 시작 ===');
+        console.log('전송할 이미지 URI:', photoLocal);
+        
+        // TODO: OCR API 호출 (현재 주석처리)
+        /*
+        const result = await extractText(photoLocal);
+        console.log('=== OCR API 응답 결과 ===');
+        console.log('성공 여부:', result.success);
+        
+        if (result.success) {
+          console.log('추출된 텍스트:', result.ocrText);
+          console.log('메시지:', result.message);
+          
+          // 성공 시 OCR 텍스트를 Redux store에 저장
+          dispatch(setOcrText({
+            ocrText: result.ocrText,
+            confidence: result.confidence
+          }));
+        } else {
+          console.log('에러 타입:', result.error);
+          console.log('에러 메시지:', result.message);
         }
+        console.log('=== OCR API 호출 완료 ===');
+        */
+        
+        // 임시로 성공 메시지 출력
+        console.log('=== OCR API 호출 완료 (주석처리됨) ===');
+        console.log('OCR 기능은 추후 구현 예정입니다.');
       }
-      console.log('=== API 호출 완료 ===');
+      
     } catch (error) {
       console.error('=== API 호출 중 에러 발생 ===');
       console.error('에러:', error);
     }
     
-    if (
-      photoLocal &&
-      typeof route.params?.index === 'number' &&
-      route.params.index >= 0
-    ) {
-      dispatch(setPhoto({ index: route.params.index, uri: photoLocal }));
+    // 공통 로직: 사진 저장 및 화면 이동
+    if (photoLocal && typeof photoIndex === 'number' && photoIndex >= 0) {
+      dispatch(setPhoto({ index: photoIndex, uri: photoLocal }));
       navigation.goBack();
     } else {
       console.warn('Invalid photo or index parameter');
@@ -139,16 +177,18 @@ const CameraScreen = ({ navigation }) => {
     }
   };
 
+
+
   return (
     <Animated.View style={[styles.animatedContainer, animatedStyle]}>
-      {/* X 버튼 */}
-      <TouchableOpacity style={styles.closeButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.closeText}>✕</Text>
-      </TouchableOpacity>
       {/* 사진 미리보기 */}
       {photoLocal ? (
         <>
-          <Image source={{ uri: photoLocal }} style={styles.preview} resizeMode="cover" />
+          <Image 
+            source={{ uri: photoLocal }} 
+            style={styles.preview} 
+            resizeMode="cover"
+          />
           <View style={styles.previewButtonRow}>
             <TouchableOpacity style={styles.button} onPress={handleRetake} disabled={isProcessing}>
               <Text style={styles.buttonText}>재촬영</Text>
@@ -160,32 +200,37 @@ const CameraScreen = ({ navigation }) => {
         </>
       ) : (
         <>
+          {/* X 버튼 */}
+          <TouchableOpacity style={styles.closeButton} onPress={() => navigation.goBack()}>
+            <Text style={styles.closeText}>✕</Text>
+          </TouchableOpacity>
+
           {/* 안내 텍스트 */}
           <View style={styles.guideTextContainer} pointerEvents="none">
             <Text style={styles.guideText}> 촬영하고자 하는 작품을{"\n"}
             화면 중앙에 맞춰 찍어주세요</Text>
           </View>
+
           <CameraView
             ref={cameraRef}
             style={styles.camera}
             facing="back"
             photo={true}
           />
-          {/* Blur 마스킹: 프레임 영역을 제외한 4개 영역을 정확히 맞닿게 */}
+
+          {/* 위아래만 검은색 투명 오버레이 */}
           <View style={styles.blurContainer} pointerEvents="none">
             {/* 위쪽 */}
-            <BlurView intensity={25} style={{ position: 'absolute', top: 0, left: 0, right: 0, height: FRAME_TOP }} />
+            <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: FRAME_TOP, backgroundColor: 'rgba(0,0,0,0.4)' }} />
             {/* 아래쪽 */}
-            <BlurView intensity={25} style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: FRAME_TOP }} />
-            {/* 왼쪽 */}
-            <BlurView intensity={10} style={{ position: 'absolute', top: FRAME_TOP, left: 0, width: FRAME_LEFT, height: FRAME_HEIGHT }} />
-            {/* 오른쪽 */}
-            <BlurView intensity={10} style={{ position: 'absolute', top: FRAME_TOP, right: 0, width: FRAME_LEFT, height: FRAME_HEIGHT }} />
+            <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: FRAME_TOP, backgroundColor: 'rgba(0,0,0,0.4)' }} />
           </View>
-          {/* 9:16 직사각형 프레임 */}
-          <View style={styles.rectFrame} pointerEvents="none" />
-          {/* 사진 찍기 버튼 */}
-          <View style={styles.buttonContainer} pointerEvents="box-none">
+
+
+  
+
+          {/* 셔터 버튼 */}
+          <View style={styles.shutterContainer} pointerEvents="box-none">
             <TouchableOpacity style={styles.shutterButton} onPress={takePicture} disabled={isProcessing}>
               <View style={styles.shutterOuter}>
                 <View style={styles.shutterInner} />
@@ -194,6 +239,7 @@ const CameraScreen = ({ navigation }) => {
           </View>
         </>
       )}
+
       {/* 처리 중 오버레이 */}
       {isProcessing && (
         <View style={styles.processingOverlay}>
@@ -223,35 +269,65 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     zIndex: 9,
   },
-  rectFrame: {
+  button: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    borderRadius: 24,
+    marginHorizontal: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  message: {
+    color: '#fff',
+    fontSize: 18,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  preview: {
     position: 'absolute',
     top: FRAME_TOP,
     left: FRAME_LEFT,
     width: FRAME_WIDTH,
     height: FRAME_HEIGHT,
-    borderWidth: 3,
-    borderColor: '#cccccc',
-    borderRadius: 5,
-    zIndex: 10,
+    zIndex: 30,
   },
-  closeButton: {
+  previewButtonRow: {
     position: 'absolute',
-    top: 50,
-    right: 24,
-    zIndex: 20,
-    padding: 10,
-  },
-  closeText: {
-    color: '#fff',
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-  buttonContainer: {
-    position: 'absolute',
-    bottom: 40,
+    bottom: 60,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
+    zIndex: 40,
+  },
+  guideTextContainer: {
+    position: 'absolute',
+    top: FRAME_TOP - 65,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    zIndex: 30,
+  },
+  guideText: {
+    color: '#fff',
+    fontSize: 17,
+    fontWeight: 'bold',
+    textShadowColor: 'rgba(0,0,0,0.7)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  shutterContainer: {
+    position: 'absolute',
+    bottom: 60,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 15,
   },
   shutterButton: {
@@ -274,58 +350,6 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: '#fff',
   },
-  button: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 24,
-    marginHorizontal: 10,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  message: {
-    color: '#fff',
-    fontSize: 18,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  preview: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-    zIndex: 30,
-  },
-  previewButtonRow: {
-    position: 'absolute',
-    bottom: 60,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    zIndex: 40,
-  },
-  guideTextContainer: {
-    position: 'absolute',
-    top: FRAME_TOP - 65, // 프레임 위쪽에 약간 여백을 두고 배치
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    zIndex: 30,
-  },
-  guideText: {
-    color: '#fff',
-    fontSize: 17,
-    fontWeight: 'bold',
-    textShadowColor: 'rgba(0,0,0,0.7)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
-    textAlign: 'center',
-    lineHeight: 20,
-  },
   processingOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.4)',
@@ -333,6 +357,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 100,
   },
+  closeButton: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 20,
+  },
+  closeText: {
+    fontSize: 24,
+    color: '#fff',
+  },
+
 });
 
 export default CameraScreen; 

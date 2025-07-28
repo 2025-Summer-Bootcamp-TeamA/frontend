@@ -29,16 +29,17 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   active: {
-    backgroundColor: '#FFD700', // 금색
-    borderColor: '#FFD700',
+    backgroundColor: '#E1B668', // 금색
+    borderColor:  '#E1B668',
   },
   inactive: {
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   activeText: {
-    color: '#222',
+    color: 'white',
     fontWeight: 'bold',
+    opacity: 0.8,
   },
   inactiveText: {
     color: 'white',

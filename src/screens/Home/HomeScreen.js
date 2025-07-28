@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, Text, ScrollView, ImageBackground } from 'react-native';
+import { useSelector } from 'react-redux';
+import { selectSelectedMuseum } from '../../store/museumSlice';
 // MainFeature 배경 이미지 import
 import Bg from '../../../assets/backgrounds/HomeScreen.webp';
 import MainFeatureBg from '../../../assets/backgrounds/MainFeature 배경.webp';
@@ -44,39 +46,44 @@ const museums = [
   },
 ];
 
-const HomeScreen = ({ navigation, selectedMuseumName }) => (
-  <ImageBackground
-    source={Bg}
-    style={{ flex: 1 }}
-    resizeMode="cover"
-  >
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.greetingBox}>
-        <Text style={styles.greeting}>안녕하세요, 준영님!</Text>
-        <Text style={styles.welcome}>
-          {selectedMuseumName ? `${selectedMuseumName}에 오신걸 환영합니다.` : '박물관에 오신걸 환영합니다.'}
-        </Text>
-      </View>
-      <MainFeatureCard
-        imageSource={MainFeatureBg}
-        title="박물관 그 이상의 경험"
-        subtitle="한 장의 사진이 특별한 이야기가 됩니다"
-        navigation={navigation}
-      />
-      <Text style={styles.sectionTitle}>근처 박물관</Text>
-      <FlatList
-        data={museums}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <MuseumCard name={item.name} address={item.address} image={item.image} />
-        )}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.listContent}
-      />
-    </ScrollView>
-  </ImageBackground>
-);
+const HomeScreen = ({ navigation }) => {
+  const selectedMuseum = useSelector(selectSelectedMuseum);
+  const selectedMuseumName = selectedMuseum ? selectedMuseum.name : null;
+
+  return (
+    <ImageBackground
+      source={Bg}
+      style={{ flex: 1 }}
+      resizeMode="cover"
+    >
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <View style={styles.greetingBox}>
+          <Text style={styles.greeting}>안녕하세요, 준영님!</Text>
+          <Text style={styles.welcome}>
+            {selectedMuseumName ? `${selectedMuseumName}에 오신걸 환영합니다.` : '박물관에 오신걸 환영합니다.'}
+          </Text>
+        </View>
+        <MainFeatureCard
+          imageSource={MainFeatureBg}
+          title="박물관 그 이상의 경험"
+          subtitle="한 장의 사진이 특별한 이야기가 됩니다"
+          navigation={navigation}
+        />
+        <Text style={styles.sectionTitle}>근처 박물관</Text>
+        <FlatList
+          data={museums}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <MuseumCard name={item.name} address={item.address} image={item.image} />
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.listContent}
+        />
+      </ScrollView>
+    </ImageBackground>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -16,6 +16,7 @@ export const fetchNearbyMuseums = createAsyncThunk(
 
 const initialState = {
   museums: [],
+  selectedMuseum: null, // 선택된 박물관 정보 추가
   isLoading: false,
   error: null,
   lastLocation: null,
@@ -38,6 +39,13 @@ const museumSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    // 선택된 박물관 관련 액션들 추가
+    setSelectedMuseum: (state, action) => {
+      state.selectedMuseum = action.payload;
+    },
+    clearSelectedMuseum: (state) => {
+      state.selectedMuseum = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -59,7 +67,7 @@ const museumSlice = createSlice({
   },
 });
 
-export const { clearMuseums, setMuseums, clearError } = museumSlice.actions;
+export const { clearMuseums, setMuseums, clearError, setSelectedMuseum, clearSelectedMuseum } = museumSlice.actions;
 
 // Selectors
 export const selectMuseums = (state) => state.museum.museums;
@@ -67,6 +75,7 @@ export const selectMuseumsLoading = (state) => state.museum.isLoading;
 export const selectMuseumsError = (state) => state.museum.error;
 export const selectLastLocation = (state) => state.museum.lastLocation;
 export const selectLastFetchTime = (state) => state.museum.lastFetchTime;
+export const selectSelectedMuseum = (state) => state.museum.selectedMuseum; // 선택된 박물관 selector 추가
 
 // 캐시 유효성 확인 함수
 export const selectIsCacheValid = (state) => {

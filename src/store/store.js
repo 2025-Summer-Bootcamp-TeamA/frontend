@@ -3,6 +3,7 @@ import authReducer from './authSlice';
 import photoReducer from './photoSlice';
 import libraryReducer from './librarySlice';
 import museumReducer from './museumSlice';
+import avatarReducer from './avatarSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     photo: photoReducer,
     library: libraryReducer,
     museum: museumReducer,
+    avatar: avatarReducer,
   },
 }); 
