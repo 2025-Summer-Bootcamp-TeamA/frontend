@@ -5,6 +5,7 @@ import { useEvent } from 'expo';
 import PlayerControls from '../../components/PlayerControls';
 import ArtworkInfoPanel from '../../components/ArtworkInfoPanel';
 import { useRoute } from '@react-navigation/native';
+import { getVideo } from '../../api/videos/getVideoApi';
 
 const backgroundImage = require('../../../assets/backgrounds/video_playback_background.webp');
 const frameImage = require('../../../assets/backgrounds/Video_frame.webp');
@@ -22,12 +23,29 @@ const VideoDetailScreen = () => {
   const [progress, setProgress] = useState(0);
   const videoRef = React.useRef(null);
 
-  useEffect(() => {
-    // TODO: 영상 상세조회 API 호출 예시
-    // fetch(`/videos/${videoId}`)
-    //   .then(res => res.json())
-    //   .then(data => setVideoDetail(data));
-  }, [videoId]);
+  // useEffect(() => {
+  //   const fetchVideoDetail = async () => {
+  //     try {
+  //       console.log('=== 비디오 상세 조회 시작 ===');
+  //       console.log('조회할 videoId:', videoId);
+
+  //       const result = await getVideo(videoId);
+
+  //       if (result.success) {
+  //         console.log('비디오 상세 조회 성공:', result.data);
+  //         setVideoDetail(result.data);
+  //       } else {
+  //         console.error('비디오 상세 조회 실패:', result.message);
+  //       }
+  //     } catch (error) {
+  //       console.error('비디오 상세 조회 중 오류:', error);
+  //     }
+  //   };
+
+  //   if (videoId) {
+  //     fetchVideoDetail();
+  //   }
+  // }, [videoId]);
 
   const handlePlaybackStatusUpdate = (status) => {
     if (status.isLoaded) {
@@ -77,7 +95,7 @@ const VideoDetailScreen = () => {
           )}
           <Video
             ref={videoRef}
-            source={{ uri: VIDEO_URL }}
+            source={{ uri: videoDetail?.videoUrl || VIDEO_URL }}
             style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
             resizeMode="contain"
             useNativeControls={false}
@@ -88,9 +106,9 @@ const VideoDetailScreen = () => {
       </View>
       <View style={styles.artworkInfoPanelWrapper}>
         <ArtworkInfoPanel
-          title="모나리자"
-          artist="레오나르도 다 빈치"
-          script="레오나르도 다 빈치의 모나리자(Mona Lisa)는 세계에서 가장 유명한 초상화 중 하나로, 16세기 초 이탈리아에서 완성된 작품이다. 부드러운 미소와 신비로운 눈빛으로 잘 알려져 있으며, 인물의 표정과 배경의 섬세한 묘사가 돋보인다. 다 빈치는 명암법(스푸마토)을 활용해 얼굴과 손의 입체감을 자연스럽게 표현했다. 모나리자가 누구를 모델로 했는지에 대해서는 여러 설이 있지만, 일반적으로 피렌체 상인의 부인 리자 델 조콘도라는 의견이 유력하다. 현재 이 작품은 프랑스 파리의 루브르 박물관에 전시되어 있으며, 전 세계에서 수많은 관람객이 찾는 명작이다."
+          title={videoDetail?.title || "모나리자"}
+          artist={videoDetail?.artist || "레오나르도 다 빈치"}
+          description={videoDetail?.description || "레오나르도 다 빈치의 모나리자(Mona Lisa)는 세계에서 가장 유명한 초상화 중 하나로, 16세기 초 이탈리아에서 완성된 작품이다. 부드러운 미소와 신비로운 눈빛으로 잘 알려져 있으며, 인물의 표정과 배경의 섬세한 묘사가 돋보인다. 다 빈치는 명암법(스푸마토)을 활용해 얼굴과 손의 입체감을 자연스럽게 표현했다. 모나리자가 누구를 모델로 했는지에 대해서는 여러 설이 있지만, 일반적으로 피렌체 상인의 부인 리자 델 조콘도라는 의견이 유력하다. 현재 이 작품은 프랑스 파리의 루브르 박물관에 전시되어 있으며, 전 세계에서 수많은 관람객이 찾는 명작이다."}
         />
       </View>
       <View style={styles.playerControlsWrapper}>

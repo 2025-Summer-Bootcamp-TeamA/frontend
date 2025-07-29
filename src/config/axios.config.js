@@ -31,7 +31,7 @@ export const jsonAxios = axios.create({
  */
 export const videoGenerationAxios = axios.create({
   baseURL: BASE_URL,
-  timeout: 120000, // 2분 타임아웃
+  timeout: 300000, // 5분 타임아웃 (300초)
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json', // FormData 사용시 자동 변경됨
@@ -97,8 +97,8 @@ const addRefreshInterceptor = (axiosInstance) => {
     async (error) => {
       const originalRequest = error.config;
 
-      // 401 에러이고 아직 재시도하지 않은 경우
-      if (error.response?.status === 401 && !originalRequest._retry) {
+      // 401 또는 403 에러이고 아직 재시도하지 않은 경우
+      if ((error.response?.status === 401 || error.response?.status === 403) && !originalRequest._retry) {
         originalRequest._retry = true;
 
         try {

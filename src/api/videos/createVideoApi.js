@@ -1,4 +1,4 @@
-import { jsonAxios } from '../../config/axios.config';
+import { videoGenerationAxios } from '../../config/axios.config';
 
 /**
  * 영상 생성 API
@@ -25,9 +25,8 @@ export const createVideo = async ({ ocrText, museumName, avatarId }) => {
       backgroundColor: ""         // 기본값
     };
 
-    console.log('전송할 Request Body:', requestBody);
 
-    const response = await jsonAxios.post('/videos', requestBody);
+    const response = await videoGenerationAxios.post('/videos', requestBody);
     
     console.log('=== 영상 생성 API 응답 ===');
     console.log('응답 데이터:', response.data);
@@ -36,8 +35,11 @@ export const createVideo = async ({ ocrText, museumName, avatarId }) => {
       success: true,
       data: response.data,
       videoId: response.data.videoId,
+      visionstoryId: response.data.visionstoryId,
       videoUrl: response.data.videoUrl,
       status: response.data.status,
+      museumName: response.data.museumName,
+      placeId: response.data.placeId,
       artworkInfo: response.data.artworkInfo
     };
 
