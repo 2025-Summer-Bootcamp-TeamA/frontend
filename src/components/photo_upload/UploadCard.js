@@ -8,7 +8,7 @@ const UploadCard = ({ title = "작품 사진 업로드", subtitle = "작품을 �
     <View style={styles.uploadCard}>
       {photo ? (
         <>
-          <Image source={{ uri: photo }} style={styles.fullImage} resizeMode="cover" />
+          <Image source={{ uri: photo }} style={styles.fullImage} resizeMode="contain" />
           {/* X 버튼 우측 상단에 배치 */}
           <TouchableOpacity style={styles.removeButton} onPress={() => setModalVisible(true)}>
             <Text style={styles.removeButtonText}>×</Text>
@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
   },
   fullImage: {
-    ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: '100%',
     borderRadius: 12,
-    
   },
   removeButton: {
     position: 'absolute',

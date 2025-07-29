@@ -5,11 +5,11 @@ const initialState = {
     // 국립중앙박물관 3개
     {
       videoId: 1,
+      visionstoryId: "5097095957362458165",
       placeId: 'ChIJR7Ck0ULifDURQeLq4dK1Z2A', // 국립중앙박물관
-      museum: '국립중앙박물관',
+      museumName: '국립중앙박물관',
       videoUrl: 'https://storage.googleapis.com/teama-buck/%E1%84%85%E1%85%A6%E1%84%8B%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B3%E1%84%83%E1%85%A9_%E1%84%83%E1%85%A1%E1%84%87%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%B5_%E1%84%86%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8C%E1%85%A1_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%91%E1%85%AE%E1%86%B7_%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2__07-24%2022_20.mp4',
-      thumbnailUrl: require('../../assets/Demo/Demobg1.webp'),
-      duration: 180,
+      status: 'created',
       artworkInfo: {
         title: '훈민정음',
         artist: '세종대왕',
@@ -19,11 +19,11 @@ const initialState = {
     },
     {
       videoId: 2,
+      visionstoryId: "5097095957362458166",
       placeId: 'ChIJR7Ck0ULifDURQeLq4dK1Z2A',
-      museum: '국립중앙박물관',
+      museumName: '국립중앙박물관',
       videoUrl: 'https://storage.googleapis.com/teama-buck/%E1%84%85%E1%85%A6%E1%84%8B%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B3%E1%84%83%E1%85%A9_%E1%84%83%E1%85%A1%E1%84%87%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%B5_%E1%84%86%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8C%E1%85%A1_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%91%E1%85%AE%E1%86%B7_%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2__07-24%2022_20.mp4',
-      thumbnailUrl: require('../../assets/Demo/Demobg2.webp'),
-      duration: 200,
+      status: 'created',
       artworkInfo: {
         title: '금관',
         artist: '신라 장인',
@@ -33,11 +33,11 @@ const initialState = {
     },
     {
       videoId: 3,
+      visionstoryId: "5097095957362458167",
       placeId: 'ChIJR7Ck0ULifDURQeLq4dK1Z2A',
-      museum: '국립중앙박물관',
+      museumName: '국립중앙박물관',
       videoUrl: 'https://storage.googleapis.com/teama-buck/%E1%84%85%E1%85%A6%E1%84%8B%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B3%E1%84%83%E1%85%A9_%E1%84%83%E1%85%A1%E1%84%87%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%B5_%E1%84%86%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8C%E1%85%A1_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%91%E1%85%AE%E1%86%B7_%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2__07-24%2022_20.mp4',
-      thumbnailUrl: require('../../assets/Demo/Demobg3.webp'),
-      duration: 190,
+      status: 'created',
       artworkInfo: {
         title: '백제 금동대향로',
         artist: '백제 장인',
@@ -48,11 +48,11 @@ const initialState = {
     // 국립고궁박물관 3개
     {
       videoId: 4,
+      visionstoryId: "5097095957362458168",
       placeId: 'ChIJwzD1QK2ifDURQJkQ0b2Q2iA', // 국립고궁박물관
-      museum: '국립고궁박물관',
+      museumName: '국립고궁박물관',
       videoUrl: 'https://storage.googleapis.com/teama-buck/%E1%84%85%E1%85%A6%E1%84%8B%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B3%E1%84%83%E1%85%A9_%E1%84%83%E1%85%A1%E1%84%87%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%B5_%E1%84%86%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8C%E1%85%A1_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%91%E1%85%AE%E1%86%B7_%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2__07-24%2022_20.mp4',
-      thumbnailUrl: require('../../assets/Demo/Demobg1.webp'),
-      duration: 185,
+      status: 'created',
       artworkInfo: {
         title: '조선 왕실의 보물',
         artist: '조선 장인',
@@ -62,11 +62,11 @@ const initialState = {
     },
     {
       videoId: 5,
+      visionstoryId: "5097095957362458169",
       placeId: 'ChIJwzD1QK2ifDURQJkQ0b2Q2iA',
-      museum: '국립고궁박물관',
+      museumName: '국립고궁박물관',
       videoUrl: 'https://storage.googleapis.com/teama-buck/%E1%84%85%E1%85%A6%E1%84%8B%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B3%E1%84%83%E1%85%A9_%E1%84%83%E1%85%A1%E1%84%87%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%B5_%E1%84%86%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8C%E1%85%A1_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%91%E1%85%AE%E1%86%B7_%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2__07-24%2022_20.mp4',
-      thumbnailUrl: require('../../assets/Demo/Demobg2.webp'),
-      duration: 175,
+      status: 'created',
       artworkInfo: {
         title: '왕실 의복',
         artist: '조선 재단사',
@@ -76,11 +76,11 @@ const initialState = {
     },
     {
       videoId: 6,
+      visionstoryId: "5097095957362458170",
       placeId: 'ChIJwzD1QK2ifDURQJkQ0b2Q2iA',
-      museum: '국립고궁박물관',
+      museumName: '국립고궁박물관',
       videoUrl: 'https://storage.googleapis.com/teama-buck/%E1%84%85%E1%85%A6%E1%84%8B%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B3%E1%84%83%E1%85%A9_%E1%84%83%E1%85%A1%E1%84%87%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%B5_%E1%84%86%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8C%E1%85%A1_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%91%E1%85%AE%E1%86%B7_%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2__07-24%2022_20.mp4',
-      thumbnailUrl: require('../../assets/Demo/Demobg3.webp'),
-      duration: 165,
+      status: 'created',
       artworkInfo: {
         title: '왕실 도자기',
         artist: '조선 도공',
@@ -91,11 +91,11 @@ const initialState = {
     // 국립민속박물관 3개
     {
       videoId: 7,
+      visionstoryId: "5097095957362458171",
       placeId: 'ChIJc8QJ3K2ifDURQJkQ0b2Q2iB', // 국립민속박물관(예시)
-      museum: '국립민속박물관',
+      museumName: '국립민속박물관',
       videoUrl: 'https://storage.googleapis.com/teama-buck/%E1%84%85%E1%85%A6%E1%84%8B%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B3%E1%84%83%E1%85%A9_%E1%84%83%E1%85%A1%E1%84%87%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%B5_%E1%84%86%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8C%E1%85%A1_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%91%E1%85%AE%E1%86%B7_%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2__07-24%2022_20.mp4',
-      thumbnailUrl: require('../../assets/Demo/Demobg1.webp'),
-      duration: 170,
+      status: 'created',
       artworkInfo: {
         title: '상평통보',
         artist: '조선 조폐국',
@@ -105,11 +105,11 @@ const initialState = {
     },
     {
       videoId: 8,
+      visionstoryId: "5097095957362458172",
       placeId: 'ChIJc8QJ3K2ifDURQJkQ0b2Q2iB',
-      museum: '국립민속박물관',
+      museumName: '국립민속박물관',
       videoUrl: 'https://storage.googleapis.com/teama-buck/%E1%84%85%E1%85%A6%E1%84%8B%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B3%E1%84%83%E1%85%A9_%E1%84%83%E1%85%A1%E1%84%87%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%B5_%E1%84%86%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8C%E1%85%A1_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%91%E1%85%AE%E1%86%B7_%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2__07-24%2022_20.mp4',
-      thumbnailUrl: require('../../assets/Demo/Demobg2.webp'),
-      duration: 160,
+      status: 'created',
       artworkInfo: {
         title: '천원권 지폐',
         artist: '한국은행',
@@ -119,11 +119,11 @@ const initialState = {
     },
     {
       videoId: 9,
+      visionstoryId: "5097095957362458173",
       placeId: 'ChIJc8QJ3K2ifDURQJkQ0b2Q2iB',
-      museum: '국립민속박물관',
+      museumName: '국립민속박물관',
       videoUrl: 'https://storage.googleapis.com/teama-buck/%E1%84%85%E1%85%A6%E1%84%8B%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B3%E1%84%83%E1%85%A9_%E1%84%83%E1%85%A1%E1%84%87%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%B5_%E1%84%86%E1%85%A9%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8C%E1%85%A1_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%91%E1%85%AE%E1%86%B7_%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2__07-24%2022_20.mp4',
-      thumbnailUrl: require('../../assets/Demo/Demobg3.webp'),
-      duration: 150,
+      status: 'created',
       artworkInfo: {
         title: '오천원권 지폐',
         artist: '한국은행',

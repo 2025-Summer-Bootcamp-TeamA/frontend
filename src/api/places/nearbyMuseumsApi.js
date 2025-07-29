@@ -54,7 +54,7 @@ export const searchNearbyMuseums = async ({
       keyword
     };
 
-    const response = await jsonAxios.post('/places/museums/', requestBody);
+    const response = await jsonAxios.post('/places/museums', requestBody);
 
     // 응답 데이터 검증
     if (!Array.isArray(response.data)) {

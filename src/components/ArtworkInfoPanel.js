@@ -9,7 +9,7 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const ArtworkInfoPanel = ({
   title = '작품명',
   artist = '작가명',
-  script = '작품 설명 대본이 여기에 들어갑니다. 길어도 스크롤 가능!',
+  description = '작품 설명 대본이 여기에 들어갑니다. 길어도 스크롤 가능!',
   style,
 }) => {
   const animatedHeight = useRef(new Animated.Value(MIN_HEIGHT)).current;
@@ -55,8 +55,8 @@ const ArtworkInfoPanel = ({
       <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.artist}>{artist}</Text>
-        <View style={styles.scriptWrapper}>
-          <Text style={styles.script}>{script}</Text>
+        <View style={styles.descriptionWrapper}>
+          <Text style={styles.description}>{description}</Text>
         </View>
       </View>
     </Animated.View>
@@ -94,10 +94,10 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     opacity:0.7
   },
-  scriptWrapper: {
+  descriptionWrapper: {
     alignSelf: 'flex-start',
   },
-  script: {
+  description: {
     color: '#fff',
     fontSize: 14,
     lineHeight: 21,

@@ -5,6 +5,7 @@ import Animated, {
   useAnimatedStyle, 
   withTiming
 } from 'react-native-reanimated';
+import MuseumSectionCard from '../../components/Library/MuseumSectionCard';
 import MuseumSection from '../../components/Library/MuseumSection';
 import CustomSkeleton from '../../components/Library/CustomSkeleton';
 import { useNavigation } from '@react-navigation/native';
@@ -13,8 +14,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { deleteVideo } from '../../store/librarySlice';
 import PhotoRemoveModal from '../../components/photo_upload/PhotoRemoveModal';
 
-const backgroundImage = require('../../../assets/backgrounds/바탕화면.webp');
+const backgroundImage = require('../../../assets/backgrounds/HomeScreen.webp');
 const { width } = Dimensions.get('window');
+
+// 박물관별 이미지 매핑 (임시로 Demo 이미지 사용)
+const museumImages = {
+  '국립중앙박물관': require('../../../assets/Demo/Demomuseum1.jpg'),
+  '국립고궁박물관': require('../../../assets/Demo/Demomuseum2.jpg'),
+  '국립민속박물관': require('../../../assets/Demo/DemoMuseum3.jpg'),
+};
 
 const LibraryScreen = () => {
   const navigation = useNavigation();
@@ -26,6 +34,9 @@ const LibraryScreen = () => {
   // 선택 모드 관련 상태 추가
   const [isSelectMode, setIsSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
+  
+  // 확장된 박물관 상태 관리
+  const [expandedMuseums, setExpandedMuseums] = useState(new Set());
   
   // Reanimated 값들
   const screenOpacity = useSharedValue(0);
@@ -75,8 +86,8 @@ const LibraryScreen = () => {
     setTimeout(() => {
       // museum 이름별로 그룹핑
       const grouped = videoLibrary.reduce((acc, video) => {
-        if (!acc[video.museum]) acc[video.museum] = [];
-        acc[video.museum].push(video);
+        if (!acc[video.museumName]) acc[video.museumName] = [];
+        acc[video.museumName].push(video);
         return acc;
       }, {});
       const sections = Object.entries(grouped).map(([title, artworks]) => ({
@@ -107,6 +118,20 @@ const LibraryScreen = () => {
     };
   });
 
+  // 박물관 카드 클릭 핸들러
+  const handleMuseumPress = (museumSection) => {
+    const museumTitle = museumSection.title;
+    setExpandedMuseums(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(museumTitle)) {
+        newSet.delete(museumTitle);
+      } else {
+        newSet.add(museumTitle);
+      }
+      return newSet;
+    });
+  };
+
   const handlePressArtwork = (videoId) => {
     if (isSelectMode) {
       // 선택 모드일 때는 선택/해제 로직
@@ -117,7 +142,7 @@ const LibraryScreen = () => {
       );
     } else {
       // 일반 모드일 때는 상세 화면으로 이동
-      navigation.navigate('VideoDetail', { id: videoId });
+      navigation.navigate('VideoDetail', { videoId: videoId });
     }
   };
 
@@ -154,14 +179,28 @@ const LibraryScreen = () => {
                 style={contentAnimatedStyle}
               >
                 {museumSections.map((museum, idx) => (
-                  <MuseumSection
-                    key={museum.placeId}
-                    title={museum.title}
-                    artworks={museum.artworks}
-                    onPressArtwork={handlePressArtwork}
-                    isSelectMode={isSelectMode}
-                    selectedIds={selectedIds}
-                  />
+                  <View key={museum.placeId}>
+                    <MuseumSectionCard
+                      title={museum.title}
+                      videoCount={museum.artworks.length}
+                      museumImage={museumImages[museum.title] || require('../../../assets/Demo/Demomuseum1.jpg')}
+                      onPress={() => handleMuseumPress(museum)}
+                      isExpanded={expandedMuseums.has(museum.title)}
+                    />
+                    
+                    {/* 확장된 경우 ArtworkCard들 표시 */}
+                    {expandedMuseums.has(museum.title) && (
+                      <View style={styles.playlistContainer}>
+                        <MuseumSection
+                          title=""
+                          artworks={museum.artworks}
+                          onPressArtwork={handlePressArtwork}
+                          isSelectMode={isSelectMode}
+                          selectedIds={selectedIds}
+                        />
+                      </View>
+                    )}
+                  </View>
                 ))}
               </Animated.View>
             )}
@@ -212,6 +251,10 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingVertical: 24,
     paddingHorizontal: 0,
+  },
+  playlistContainer: {
+    marginTop: 4,
+    marginBottom: 4,
   },
   bottomBar: {
     position: 'absolute',

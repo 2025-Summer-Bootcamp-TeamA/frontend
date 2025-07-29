@@ -6,8 +6,10 @@ import { BlurView } from 'expo-blur';
 import { useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { setPhoto } from '../../store/photoSlice';
-import { setAvatarInfo } from '../../store/avatarSlice';
+import { setAvatarInfo, setAvatarLoading, setAvatarError } from '../../store/avatarSlice';
+import { setOcrText, setOcrLoading, setOcrError } from '../../store/ocrSlice';
 import { createAvatar } from '../../api/avatars/createAvatarApi';
+import { performOcrWithUri } from '../../api/ocr/ocrApi';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const FRAME_WIDTH = Math.round(SCREEN_WIDTH * 0.8); // 화면의 80% 너비
@@ -84,7 +86,7 @@ const CameraScreen = ({ navigation }) => {
   // 재촬영
   const handleRetake = () => setPhotoLocal(null);
 
-  // 확인(추후 로직 연결)
+  // 확인 버튼 클릭 시 API 호출 시작하고 즉시 PhotoUpload로 이동
   const handleConfirm = async () => {
     const photoIndex = route.params?.index;
     
@@ -95,86 +97,89 @@ const CameraScreen = ({ navigation }) => {
       return;
     }
 
-    try {
-      if (photoIndex === 0) {
-        // 첫 번째 사진 (index 0): 아바타 생성 API 호출
-        console.log('=== 아바타 생성 API 호출 시작 ===');
-        console.log('전송할 이미지 URI:', photoLocal);
-        
-        const result = await createAvatar(photoLocal);
-        console.log('=== API 응답 결과 ===');
-        console.log('성공 여부:', result.success);
-        
-        if (result.success) {
-          console.log('아바타 ID:', result.avatar_id);
-          console.log('썸네일 URL:', result.thumbnail_url);
-          console.log('업로드된 원본 URL:', result.uploaded_url);
-          console.log('메시지:', result.message);
-          
-          // 성공 시 avatar 정보를 Redux store에 저장
-          dispatch(setAvatarInfo({
-            avatar_id: result.avatar_id,
-            thumbnail_url: result.thumbnail_url,
-            uploaded_url: result.uploaded_url
-          }));
-        } else {
-          console.log('에러 타입:', result.error);
-          console.log('에러 메시지:', result.message);
-          console.log('재시도 필요:', result.retry_required);
-          if (result.suggestion) {
-            console.log('개선 제안:', result.suggestion);
-          }
-          if (result.detail) {
-            console.log('상세 에러:', result.detail);
-          }
-        }
-        console.log('=== 아바타 생성 API 호출 완료 ===');
-        
-      } else if (photoIndex === 1) {
-        // 두 번째 사진 (index 1): OCR 텍스트 추출 API 호출
-        console.log('=== OCR 텍스트 추출 API 호출 시작 ===');
-        console.log('전송할 이미지 URI:', photoLocal);
-        
-        // TODO: OCR API 호출 (현재 주석처리)
-        /*
-        const result = await extractText(photoLocal);
-        console.log('=== OCR API 응답 결과 ===');
-        console.log('성공 여부:', result.success);
-        
-        if (result.success) {
-          console.log('추출된 텍스트:', result.ocrText);
-          console.log('메시지:', result.message);
-          
-          // 성공 시 OCR 텍스트를 Redux store에 저장
-          dispatch(setOcrText({
-            ocrText: result.ocrText,
-            confidence: result.confidence
-          }));
-        } else {
-          console.log('에러 타입:', result.error);
-          console.log('에러 메시지:', result.message);
-        }
-        console.log('=== OCR API 호출 완료 ===');
-        */
-        
-        // 임시로 성공 메시지 출력
-        console.log('=== OCR API 호출 완료 (주석처리됨) ===');
-        console.log('OCR 기능은 추후 구현 예정입니다.');
-      }
-      
-    } catch (error) {
-      console.error('=== API 호출 중 에러 발생 ===');
-      console.error('에러:', error);
-    }
-    
-    // 공통 로직: 사진 저장 및 화면 이동
+    // 사진 저장
     if (photoLocal && typeof photoIndex === 'number' && photoIndex >= 0) {
       dispatch(setPhoto({ index: photoIndex, uri: photoLocal }));
-      navigation.goBack();
     } else {
       console.warn('Invalid photo or index parameter');
       navigation.goBack();
+      return;
     }
+
+    // API 호출을 먼저 시작 (백그라운드에서 비동기로 실행)
+    if (photoIndex === 0) {
+      // 첫 번째 사진 (index 0): 아바타 생성 API 호출
+      console.log('=== 아바타 생성 API 호출 시작 (백그라운드) ===');
+      
+      // 로딩 상태 시작
+      dispatch(setAvatarLoading(true));
+      
+      // 비동기로 API 호출
+      createAvatar(photoLocal)
+        .then(result => {
+          console.log('=== 아바타 생성 API 응답 결과 ===');
+          console.log('성공 여부:', result.success);
+          
+          if (result.success) {
+            console.log('아바타 ID:', result.avatar_id);
+            console.log('썸네일 URL:', result.thumbnail_url);
+            console.log('업로드된 원본 URL:', result.uploaded_url);
+            console.log('메시지:', result.message);
+            
+            // 성공 시 avatar 정보를 Redux store에 저장
+            dispatch(setAvatarInfo({
+              avatar_id: result.avatar_id,
+              thumbnail_url: result.thumbnail_url,
+              uploaded_url: result.uploaded_url
+            }));
+          } else {
+            console.log('에러 타입:', result.error);
+            console.log('에러 메시지:', result.message);
+            console.log('재시도 필요:', result.retry_required);
+            if (result.suggestion) {
+              console.log('개선 제안:', result.suggestion);
+            }
+            if (result.detail) {
+              console.log('상세 에러:', result.detail);
+            }
+            
+            // 실패 시 에러 상태 저장 (로딩 상태도 false로 설정됨)
+            console.log('=== setAvatarError 호출 ===');
+            console.log('에러 메시지:', result.message || '아바타 생성에 실패했습니다.');
+            dispatch(setAvatarError(result.message || '아바타 생성에 실패했습니다.'));
+          }
+        })
+        .catch(error => {
+          console.error('=== 아바타 생성 API 호출 실패 ===');
+          console.error('에러:', error);
+          dispatch(setAvatarError('아바타 생성 중 오류가 발생했습니다.'));
+        });
+        
+    } else if (photoIndex === 1) {
+      // 두 번째 사진 (index 1): OCR 텍스트 추출 API 호출
+      console.log('=== OCR 텍스트 추출 API 호출 시작 (백그라운드) ===');
+      
+      // 로딩 상태 시작
+      dispatch(setOcrLoading(true));
+      
+      // 비동기로 API 호출
+      performOcrWithUri(photoLocal)
+        .then(result => {
+          console.log('=== OCR API 응답 결과 ===');
+          console.log('추출된 텍스트:', result.ocr_text);
+          
+          // 성공 시 OCR 텍스트를 Redux store에 저장
+          dispatch(setOcrText(result.ocr_text));
+        })
+        .catch(error => {
+          console.error('=== OCR API 호출 실패 ===');
+          console.error('에러:', error);
+          dispatch(setOcrError('OCR 처리 중 오류가 발생했습니다.'));
+        });
+    }
+
+    // API 호출 시작 후 화면 이동
+    navigation.goBack();
   };
 
 
@@ -194,7 +199,14 @@ const CameraScreen = ({ navigation }) => {
               <Text style={styles.buttonText}>재촬영</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={handleConfirm} disabled={isProcessing}>
-              <Text style={styles.buttonText}>확인</Text>
+              {isProcessing ? (
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator size="small" color="#E1B668" />
+                  <Text style={[styles.buttonText, styles.loadingText]}>처리중...</Text>
+                </View>
+              ) : (
+                <Text style={styles.buttonText}>확인</Text>
+              )}
             </TouchableOpacity>
           </View>
         </>
@@ -246,6 +258,9 @@ const CameraScreen = ({ navigation }) => {
           <ActivityIndicator size="large" color="#fff" />
         </View>
       )}
+
+      {/* 재촬영 모달 */}
+      {/* RetryModal 컴포넌트는 더 이상 사용되지 않으므로 제거 */}
     </Animated.View>
   );
 };
@@ -372,6 +387,14 @@ const styles = StyleSheet.create({
   closeText: {
     fontSize: 24,
     color: '#fff',
+  },
+  loadingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingText: {
+    marginLeft: 8,
   },
 
 });
